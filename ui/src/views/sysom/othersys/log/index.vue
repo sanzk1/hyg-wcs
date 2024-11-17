@@ -201,10 +201,27 @@ const handlePageChange = (page, pageSize) => {
 </template>
 
 <style scoped>
-.ant-input {
-  width: 200px;
+
+@media screen and (min-width:1800px) {
+  .ant-input {
+    width: 200px;
+  }
+  .from-label{
+    font-weight: bold;
+    line-height: 32px;
+  }
 }
-.from-label{
-  font-weight: bold;
+@media screen and (min-width:1024px) and (max-width:1800px) {
+  .from-label{
+    font-weight: bold;
+  }
+  .ant-input {
+    width: 100px;
+    height: 32px;
+  }
+  .ant-picker{
+    width: 200px;
+  }
 }
+
 </style>

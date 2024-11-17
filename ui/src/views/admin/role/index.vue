@@ -322,7 +322,7 @@ const saveBindUser = () => {
 
 <template>
   <a-card>
-    <a-flex :gap="50">
+    <a-flex :gap="20" :vertical="false">
       <a-flex gap="middle">
       <label class="from-label">角色名称</label>
       <a-input v-model:value="roleName" placeholder="请输入角色名称" />
@@ -494,12 +494,28 @@ const saveBindUser = () => {
 </template>
 
 <style scoped>
-.ant-input {
-  width: 200px;
+
+
+@media screen and (min-width:1800px) {
+  .ant-input {
+    width: 200px;
+  }
+  .from-label{
+    font-weight: bold;
+    line-height: 32px;
+  }
 }
-.from-label{
-  font-weight: bold;
-  line-height: 32px;
+@media screen and (min-width:1024px) and (max-width:1800px) {
+  .from-label{
+    font-weight: bold;
+  }
+  .ant-input {
+    width: 100px;
+    height: 32px;
+  }
+  .ant-picker{
+    width: 200px;
+  }
 }
 
 </style>

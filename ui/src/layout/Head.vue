@@ -88,7 +88,7 @@ function changeColor() {
 <template>
   <a-flex :vertical="false" style="width: 96%;">
     <div class="head-content"> </div>
-    <a-flex justify="flex-end" :vertical="false" gap="large" style="width: 30%;height: 64px;">
+    <a-flex justify="flex-end" :vertical="false" gap="large" class="head-right">
       <span style="font-weight: bold;color: #1677ff;">{{nowTime}}</span>
       <FullscreenOutlined  style="font-size: 26px;" @click="cusFullScreen"/>
       <a-dropdown>
@@ -125,5 +125,9 @@ function changeColor() {
   height: 64px;
 
 }
-
+@media screen and (min-width:1024px) and (max-width:1800px) {
+  .head-right{
+    width: 30%;height: 64px;
+  }
+}
 </style>
