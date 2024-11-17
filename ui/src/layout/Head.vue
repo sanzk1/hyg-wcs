@@ -125,9 +125,27 @@ function changeColor() {
   height: 64px;
 
 }
-@media screen and (min-width:1024px) and (max-width:1800px) {
+
+@media screen and (min-width:1800px) {
+  .head-content{
+    width: 70%;
+    height: 64px;
+
+  }
+
   .head-right{
     width: 30%;height: 64px;
   }
+}
+@media screen and (min-width:1024px) and (max-width:1800px) {
+  .head-right{
+    width: 40%;height: 64px;
+  }
+  .head-content{
+    width: 60%;
+    height: 64px;
+
+  }
+
 }
 </style>
