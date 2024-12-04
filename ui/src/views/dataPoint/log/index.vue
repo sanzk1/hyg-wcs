@@ -25,7 +25,7 @@ const reset = () => {
   operateTime.value = []
 }
 const search = (page) =>{
-  let query = {name:name.value, status: JSON.parse(status.value), category: category.value,
+  let query = {name:name.value, status: status.value === undefined? undefined: status.value === 'true', category: category.value,
     pageNum: paginationer.current, pageSize: paginationer.pageSize }
   if (page){
     query.pageNum = page.current;
@@ -78,8 +78,8 @@ const columns= ref([
   {    title: '值',    dataIndex: 'value',    key: 'value',    align: 'center',    show:true , width: 150 },
   {    title: '异常原因',    dataIndex: 'reson',    key: 'reson',    align: 'left', ellipsis: true,   show:true , width: 250  },
   {    title: '操作',    dataIndex: 'oper',    key: 'oper',    align: 'center',  show:true , width: 130  },
-  {    title: '开始时间',    dataIndex: 'createdTime',    key: 'createdTime',    align: 'center',   show:true, width: 180   },
-  {    title: '结束时间',    dataIndex: 'endTime',    key: 'endTime',    align: 'center',  show:true , width: 180  },
+  {    title: '开始时间',    dataIndex: 'createdTime',    key: 'createdTime',    align: 'center',   show:true, width: 150   },
+  {    title: '结束时间',    dataIndex: 'endTime',    key: 'endTime',    align: 'center',  show:true , width: 150  },
 ])
 
 const columnsCheck = (checked,data,index) => {
@@ -243,19 +243,19 @@ const exportExcel = () => {
       <template #bodyCell="{ column, text, record }">
         <template  v-if="column.dataIndex === 'operate'">
           <a-tag v-if="record.operate === 0" color="#87d068">Read</a-tag>
-          <a-tag v-else color="#1677ff">Write</a-tag>
+          <a-tag v-if="record.operate === 1" color="#1677ff">Write</a-tag>
         </template>
-        <template v-else-if="column.dataIndex === 'name'">
+        <template v-if="column.dataIndex === 'name'">
           <a-tooltip placement="topLeft" :title="record.name" >{{record.name}}</a-tooltip>
         </template>
-        <template v-else-if="column.dataIndex === 'reson'">
+        <template v-if="column.dataIndex === 'reson'">
           <a-tooltip placement="topLeft" :title="record.reson" >{{record.reson}}</a-tooltip>
         </template>
-        <template v-else-if="column.dataIndex === 'status'">
+        <template v-if="column.dataIndex === 'status'">
           <a-tag v-if="record.status" color="#87d068">成功</a-tag>
-          <a-tag v-else color="#f50">失败</a-tag>
+          <a-tag  v-if="!record.status" color="#f50">失败</a-tag>
         </template>
-        <template v-else-if="column.dataIndex === 'time'">
+        <template v-if="column.dataIndex === 'time'">
           {{ record.time }} 毫秒
         </template>
 
