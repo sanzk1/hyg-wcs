@@ -143,29 +143,35 @@ namespace adminModule.Bll.Impl
 
         public void AddMenu(SysMenuDto sysMenuDto)
         {
-            using var db = dbClientFactory.GetSqlSugarClient();
-            SysMenu sysMenu = new SysMenu();
-            sysMenu.id = YitIdHelper.NextId();
-            sysMenu.type = sysMenuDto.type;
-            sysMenu.key = "";
-            sysMenu.parentId = sysMenuDto.parentId;
-            sysMenu.createdTime = DateTime.Now;
-           
-            sysMenu.title = sysMenuDto.title;
-            sysMenu.icon = sysMenuDto.icon;
-            sysMenu.type = sysMenuDto.type;
-            sysMenu.order = sysMenuDto.order;
-            sysMenu.target = (int)sysMenuDto.target;
-            sysMenu.show = (int)sysMenuDto.show;
-            sysMenu.enable = sysMenuDto.enable;
+            try{
+                using var db = dbClientFactory.GetSqlSugarClient();
+                SysMenu sysMenu = new SysMenu();
+                sysMenu.id = YitIdHelper.NextId();
+                sysMenu.type = sysMenuDto.type;
+                sysMenu.key = "";
+                sysMenu.parentId = sysMenuDto.parentId;
+                sysMenu.createdTime = DateTime.Now;
+            
+                sysMenu.title = sysMenuDto.title;
+                sysMenu.icon = sysMenuDto.icon;
+                sysMenu.type = sysMenuDto.type;
+                sysMenu.order = sysMenuDto.order;
+                sysMenu.target = (int)sysMenuDto.target;
+                sysMenu.show = (int)sysMenuDto.show;
+                sysMenu.enable = sysMenuDto.enable;
 
-            sysMenu.route = sysMenuDto.route;
-            sysMenu.path = sysMenuDto.path;
-            sysMenu.keepAlive = sysMenuDto.keepAlive;
-            sysMenu.pem = sysMenuDto.pem;
-            sysMenu.query = sysMenuDto.query;
-     
-            db.Insertable<SysMenu>(sysMenu).ExecuteCommand();
+                sysMenu.route = sysMenuDto.route;
+                sysMenu.path = sysMenuDto.path;
+                sysMenu.keepAlive = sysMenuDto.keepAlive;
+                sysMenu.pem = sysMenuDto.pem;
+                sysMenu.query = sysMenuDto.query;
+        
+                db.Insertable<SysMenu>(sysMenu).ExecuteCommand();
+            }catch(Exception exp){
+                _logger.LogError(exp.Message);
+                throw new BusinessException("菜单保存失败");
+            }
+            
         }
 
         public void UpdateMenu(SysMenuDto sysMenuDto)
