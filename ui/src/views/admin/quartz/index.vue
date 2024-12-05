@@ -4,6 +4,7 @@ import {reactive, ref, onMounted, toRaw,  } from 'vue';
 import {message} from "ant-design-vue";
 import {AddJob, DelJob, GetList, StatusJob, UpdateJob} from "@/api/quartz.js";
 import {useRouter} from "vue-router";
+import {checkAllPropertiesEmpty} from "@/utils/baseUtils.js";
 
 
 defineOptions({
@@ -203,6 +204,10 @@ const onClose = () => {
 const saveJob = () => {
 
   let data = toRaw(job)
+  if(checkAllPropertiesEmpty(data)){
+    message.warn('请输入完整参数后提交');
+    return;
+  }
 /*  data.concurrent = job.concurrent === 'false' ? false : true;
   data.status = Number(job.status)*/
   if (!disable.value){
