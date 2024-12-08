@@ -1,6 +1,9 @@
 <script setup>
-import {ref} from "vue";
-import { uploadOutlined, } from '@ant-design/icons-vue';
+import {ref, reactive} from "vue";
+import {AddSetting} from "@/api/setting.js";
+import {message} from "ant-design-vue";
+import {useAuthStore} from "@/store/index.js";
+// import { uploadOutlined, } from '@ant-design/icons-vue';
 
 const previewFile = async file => {
   console.log('Your upload file:', file);
@@ -13,6 +16,30 @@ const previewFile = async file => {
 };
 const fileList = ref([]);
 const gap = ref(20)
+const authStore = useAuthStore()
+const headers = reactive({
+  Authorization : 'Bearer ' + authStore.accessToken,
+})
+const baseSetting = reactive({
+  webName: '12',
+  loginName: '',
+  copyright: '',
+  backLogoUrl: '',
+  loginLogoUrl: '',
+})
+
+const save = () => {
+
+  let data = {key: 'baseSetting', value: JSON.stringify(toRaw(baseSetting))};
+  AddSetting(data).then((res) => {
+    let data = res.data;
+    if (data.code === 200){
+      message.success("保存成功")
+    }
+    else
+      message.error(data.message);
+  })
+}
 
 </script>
 
@@ -21,7 +48,7 @@ const gap = ref(20)
   <a-flex :gap="gap" vertical style="padding: 50px;">
     <a-flex style="width: 400px;" :gap="gap">
       <span style="width: 120px;font-weight: bold;">网站名称：</span>
-      <a-input  placeholder="请输入网站名称" />
+      <a-input v-model:value="baseSetting.webName"  placeholder="请输入网站名称" />
     </a-flex>
     <a-flex style="width: 400px;" :gap="gap">
       <span style="width: 120px;font-weight: bold;">登录页名称：</span>
@@ -37,6 +64,7 @@ const gap = ref(20)
           v-model:file-list="fileList"
           list-type="picture"
           action="//jsonplaceholder.typicode.com/posts/"
+          :headers="headers"
           :preview-file="previewFile"
       >
         <a-button>
@@ -52,6 +80,7 @@ const gap = ref(20)
              list-type="picture"
              action="//jsonplaceholder.typicode.com/posts/"
              :preview-file="previewFile"
+             :headers="headers"
          >
            <a-button>
              <upload-outlined></upload-outlined>
@@ -61,7 +90,7 @@ const gap = ref(20)
     </a-flex>
 
 
-    <a-button type="primary" style="width: 200px;margin-top: 100px;"  >保存</a-button>
+    <a-button type="primary" style="width: 200px;margin-top: 100px;" @click="save"  >保存</a-button>
 
   </a-flex>
 

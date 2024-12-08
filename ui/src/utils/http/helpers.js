@@ -27,7 +27,7 @@ export function resolveResError(code, msg) {
          isConfirming = false
        },
      })*/
-      return false
+      return msg
     case 424:
       return msg;
     case 404:

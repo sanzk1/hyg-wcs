@@ -122,12 +122,12 @@ app.UseServiceProvider();
 //     // 执行初始化sql
 //     db.CodeFirst.InitTables(typeof(SysUser), typeof(SysRole), typeof(SysRoleAndMenu), typeof(SysUserAndRole), typeof(SysMenu));
 //     db.CodeFirst.InitTables<SysLog>();  db.CodeFirst.InitTables<JobInfo>();
-//   db.CodeFirst.InitTables<JobLog>();    db.CodeFirst.InitTables<OtherSysLog>();
-//   db.CodeFirst.InitTables<OtherSysInfo>();
-//   db.CodeFirst.InitTables<S7DataPoint>();db.CodeFirst.InitTables<ProtocolLog>();
-//   db.CodeFirst.InitTables<SysSetting>();
-    
+//     db.CodeFirst.InitTables<JobLog>();    db.CodeFirst.InitTables<OtherSysLog>();
+//     db.CodeFirst.InitTables<OtherSysInfo>();
+//     db.CodeFirst.InitTables<S7DataPoint>();db.CodeFirst.InitTables<ProtocolLog>();
+//     db.CodeFirst.InitTables<SysSetting>();db.CodeFirst.InitTables<SysFileInfo>();
 // }
+
 
 
 

@@ -3,6 +3,8 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using adminModule.Bll;
+using api.Common.DTO;
+using domain.Pojo.sys;
 using domain.Result;
 using Microsoft.AspNetCore.Mvc;
 
@@ -18,10 +20,15 @@ namespace adminModule.Controllers
         public SysSettingController(ISysSettingBll sysSettingBll){
             this.sysSettingBll = sysSettingBll;
         }
-
-        [HttpGet]
-        public ApiResult test(int i){
-            sysSettingBll.Add(i);
+        
+        [HttpPost]
+        public ApiResult addOrUpdate([FromBody]SettingDto dto){
+            sysSettingBll.AddOrUpdate(dto);
+            return ApiResult.succeed();
+        }
+        [HttpPost]
+        public ApiResult update([FromBody]SettingDto dto){
+            sysSettingBll.AddOrUpdate(dto);
             return ApiResult.succeed();
         }
 

@@ -10,6 +10,8 @@ namespace adminModule.Dal
     {
 
         void Insert(SysSetting sysSetting);
+        void Update(SysSetting sysSetting);
+        SysSetting SelectByName(string keyName);
         
     }
 

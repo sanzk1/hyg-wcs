@@ -4,9 +4,9 @@ using System.Linq;
 using System.Threading.Tasks;
 using System.Transactions;
 using adminModule.Dal;
+using api.Common.DTO;
 using domain.Pojo.sys;
 using infrastructure.Attributes;
-using infrastructure.Exceptions;
 using Microsoft.Extensions.DependencyInjection;
 using Yitter.IdGenerator;
 
@@ -25,16 +25,24 @@ namespace adminModule.Bll.Impl
 
 
         [TransactionScope(TransactionScopeOption.Required)]
-        public void Add(int i)
+        public void AddOrUpdate(SettingDto dto)
         {
+            SysSetting setting = sysSettingDal.SelectByName(dto.key);
+            if (setting != null)
+            {
+                setting.keyName = dto.key;
+                setting.value = dto.value;
+                sysSettingDal.Update(setting);
+                return;
+            }
             SysSetting sysSetting = new();
             sysSetting.id= YitIdHelper.NextId();
-            sysSetting.keyName = "ces";
-            sysSetting.value = "12";
+            sysSetting.keyName = dto.key;
+            sysSetting.value = dto.value;
             sysSettingDal.Insert(sysSetting);
-            if(i == 1)
-                throw new BusinessException("测试事务异常回滚");
             
         }
+        
+        
     }
 }

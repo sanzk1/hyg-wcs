@@ -9,3 +9,16 @@ CREATE TABLE public.sys_setting (
 	value varchar(255) NOT NULL,
 	CONSTRAINT sys_setting_pkey PRIMARY KEY (id)
 );
+
+CREATE TABLE public.sys_file_info (
+                                      id bigserial NOT NULL,
+                                      file_name varchar(255) NOT NULL,
+                                      url varchar(255) NOT NULL,
+                                      "path" varchar(255) NOT NULL,
+                                      suffix varchar(255) NOT NULL,
+                                      file_type int4 NOT NULL,
+                                      is_delete bool NOT NULL,
+                                      created_time timestamp NOT NULL,
+                                      "size" int8 NOT NULL,
+                                      CONSTRAINT sys_file_info_pkey PRIMARY KEY (id)
+);

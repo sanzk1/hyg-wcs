@@ -23,6 +23,18 @@ namespace adminModule.Dal.Impl
             db.Insertable<SysSetting>(sysSetting).ExecuteCommand();
 
         }
+
+        public void Update(SysSetting sysSetting)
+        {
+            using var db = dbClientFactory.GetSqlSugarClient();
+            db.Updateable<SysSetting>(sysSetting).ExecuteCommand();
+        }
+
+        public SysSetting SelectByName(string keyName)
+        {
+            using var db = dbClientFactory.GetSqlSugarClient();
+            return db.Queryable<SysSetting>().Single( s => s.keyName.Equals(keyName));
+        }
     }
 
 }
