@@ -114,23 +114,22 @@ app.UseServiceProvider();
 
 // 初始化数据库表
 
-/*
-using var db = app.Services.GetService<DbClientFactory>().GetSqlSugarClient();
-var tables = db.DbMaintenance.GetTableInfoList(false);//true 走缓存 false不走缓存
-if (tables == null || tables.Count == 0 )
-{
-    // 执行初始化sql
-    db.CodeFirst.InitTables(typeof(SysUser), typeof(SysRole), typeof(SysRoleAndMenu), typeof(SysUserAndRole), typeof(SysMenu));
-    db.CodeFirst.InitTables<SysLog>();  db.CodeFirst.InitTables<JobInfo>();
-  db.CodeFirst.InitTables<JobLog>();    db.CodeFirst.InitTables<OtherSysLog>();
-  db.CodeFirst.InitTables<OtherSysInfo>();
-  db.CodeFirst.InitTables<S7DataPoint>();db.CodeFirst.InitTables<ProtocolLog>();
-    
-}
-*/
 
-TimeSpan ts = DateTime.Now - new DateTime(1970, 1, 1, 0, 0, 0, 0);
-Console.WriteLine(Convert.ToInt64(ts.TotalSeconds).ToString());
+// using var db = app.Services.GetService<DbClientFactory>().GetSqlSugarClient();
+// var tables = db.DbMaintenance.GetTableInfoList(false);//true 走缓存 false不走缓存
+// if (tables == null || tables.Count == 0 )
+// {
+//     // 执行初始化sql
+//     db.CodeFirst.InitTables(typeof(SysUser), typeof(SysRole), typeof(SysRoleAndMenu), typeof(SysUserAndRole), typeof(SysMenu));
+//     db.CodeFirst.InitTables<SysLog>();  db.CodeFirst.InitTables<JobInfo>();
+//   db.CodeFirst.InitTables<JobLog>();    db.CodeFirst.InitTables<OtherSysLog>();
+//   db.CodeFirst.InitTables<OtherSysInfo>();
+//   db.CodeFirst.InitTables<S7DataPoint>();db.CodeFirst.InitTables<ProtocolLog>();
+//   db.CodeFirst.InitTables<SysSetting>();
+    
+// }
+
+
 
 // 数据点模块初始化
 app.UseInitializesDataPointsModule();
