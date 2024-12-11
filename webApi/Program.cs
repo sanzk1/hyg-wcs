@@ -10,11 +10,14 @@ using Newtonsoft.Json;
 using System.Text;
 using AspectCore.Extensions.DependencyInjection;
 using dataPointsModule;
+using domain.Pojo.config;
 using domain.Pojo.ortherSystems;
 using domain.Pojo.protocol;
 using domain.Pojo.quartz;
 using infrastructure.Utils;
 using jobcoreModule;
+using Microsoft.Extensions.FileProviders;
+using Microsoft.Extensions.Options;
 using otherSystemModule;
 using quartzModeule;
 using webApi.Authorizations;
@@ -100,6 +103,7 @@ app.UseHttpsRedirection();
 app.UseRouting();
 app.UseCors();
 
+
 // 启用身份验证和授权中间件
 app.UseAuthentication();
 app.UseAuthorization();
@@ -110,6 +114,7 @@ app.UseMiddleware<OtherSystemsMiddleware>();
 app.UseEndpoints(e => e.MapControllers());
 
 
+app.UseStaticFilesInitPath();
 app.UseServiceProvider();
 
 // 初始化数据库表

@@ -11,17 +11,27 @@ public class FileUtil
     static string[] imgs = { ".jpg", ".jpeg", ".png", ".xbm", ".tif", ".pjp", ".svgz", ".jpg",
         ".jpeg", ".ico", ".tiff", ".gif", ".svg", ".jfif", ".webp", ".png", ".bmp", ".pjpeg", ".avif" };
     static string[] txts = { ".txt", ".text",  };
-
     
-    public static FileTypeEnum GetIFormFileType(IFormFile file)
-    {    
-        //获得到文件名
-        string fileName = Path.GetFileName(file.FileName);
-        //获得文件扩展名
-        string fileNameEx = Path.GetExtension(fileName);
-        //没有扩展名的文件名
-        string fileNameWithoutExtension = Path.GetFileNameWithoutExtension(fileName);
-            
+    /// <summary>
+    /// 创建文件夹路径默认 FileUpload文件夹路径下
+    /// </summary>
+    /// <returns></returns>
+    public static string CreatedDirPath(string? basePath)
+    {
+        if (basePath == null)
+        {
+            return $"FileUpload{Path.DirectorySeparatorChar}{DateTime.Now:yyyy-MM-dd}";
+        }
+        return $"{basePath}{Path.DirectorySeparatorChar}{DateTime.Now:yyyy-MM-dd}";
+    }
+
+    /// <summary>
+    /// 获取文件类型
+    /// </summary>
+    /// <param name="fileNameEx"></param>
+    /// <returns></returns>
+    public static FileTypeEnum GetIFormFileType(string fileNameEx)
+    {
         foreach (var item in imgs)
         {
             if (fileNameEx.Equals(item))
@@ -37,6 +47,35 @@ public class FileUtil
             }
         }
         return FileTypeEnum.Other;
+    }
+    /// <summary>
+    /// 保存文件
+    /// </summary>
+    /// <param name="filePath"></param>
+    /// <param name="fullFileName"></param>
+    /// <param name="file"></param>
+    public static void SaveFileLocal(string filePath, string fullFileName, IFormFile file)
+    {
+        if (!Directory.Exists(filePath))
+        {
+            Directory.CreateDirectory(filePath);
+        }
+        string fullFilePath = $"{Path.DirectorySeparatorChar}{filePath}{Path.DirectorySeparatorChar}{fullFileName}";
+        if (File.Exists(fullFilePath))
+        {
+            File.Delete(fullFilePath);
+        }
+        using (Stream stream = file.OpenReadStream())
+        {
+            byte[] bytes = new byte[stream.Length];
+            stream.Read(bytes, 0, bytes.Length);
+            stream.Seek(0, SeekOrigin.Begin);
+            FileStream fs = new FileStream(fullFilePath, FileMode.Create, FileAccess.Write);
+            BinaryWriter bw = new BinaryWriter(fs);
+            bw.Write(bytes);
+            bw.Close();
+            fs.Close();
+        }
     }
 
     

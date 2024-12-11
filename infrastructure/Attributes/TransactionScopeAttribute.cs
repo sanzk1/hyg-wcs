@@ -4,6 +4,7 @@ using System.Linq;
 using System.Threading.Tasks;
 using System.Transactions;
 using AspectCore.DynamicProxy;
+using infrastructure.Exceptions;
 
 namespace infrastructure.Attributes
 {
@@ -35,7 +36,7 @@ namespace infrastructure.Attributes
              }catch(Exception ex)
              {
                 Console.WriteLine(ex.Message);
-                throw new Exception(ex.Message);
+                throw new BusinessException(ex.Message);
              }
         }
 

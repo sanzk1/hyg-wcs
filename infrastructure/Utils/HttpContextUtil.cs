@@ -83,6 +83,17 @@ namespace infrastructure.Utils
             return context.Connection.RemoteIpAddress.ToString();
         }
         
+        public static string GetLocalIp()
+        {
+            var addressList = System.Net.Dns.GetHostEntry(System.Net.Dns.GetHostName()).AddressList;
+            var ips = addressList.Where(address => address.AddressFamily == System.Net.Sockets.AddressFamily.InterNetwork)
+                .Select(address => address.ToString()).ToArray();
+            if (ips.Length == 1)
+            {
+                return ips.First();
+            }
+            return ips.Where(address => !address.EndsWith(".1")).FirstOrDefault() ?? ips.FirstOrDefault();
+        }
 
     }
 }
