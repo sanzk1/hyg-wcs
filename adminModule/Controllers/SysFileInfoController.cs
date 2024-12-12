@@ -23,9 +23,14 @@ public class SysFileInfoController : ControllerBase
     
 
     [HttpPost]
-    public ApiResult UploadFile(IFormFile file)
+    public ApiResult uploadFile(IFormFile file)
     {
         return ApiResult.succeed(_sysFileInfoBll.SaveFileInfo(file));
+    }
+     [HttpPost]
+    public ApiResult getList(int? type, int current, int pageSize)
+    {
+        return ApiResult.succeed(_sysFileInfoBll.GetList(type, current, pageSize));
     }
     
     

@@ -56,7 +56,10 @@ public class SysFileInfoBll : ISysFileInfoBll
 
         return fileInfo.url;
     }
-    
-   
-    
+
+    [TransactionScope(TransactionScopeOption.Suppress)]
+    public Pager<SysFileInfo> GetList(int? type, int current, int pageSize)
+    {
+       return _sysFileInfoDal.Select(type, current, pageSize);
+    }
 }

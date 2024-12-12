@@ -22,7 +22,7 @@ public class FileUtil
         {
             return $"FileUpload{Path.DirectorySeparatorChar}{DateTime.Now:yyyy-MM-dd}";
         }
-        return $"{basePath}{Path.DirectorySeparatorChar}{DateTime.Now:yyyy-MM-dd}";
+        return $"{basePath}{Path.DirectorySeparatorChar}FileUpload{Path.DirectorySeparatorChar}{DateTime.Now:yyyy-MM-dd}";
     }
 
     /// <summary>
