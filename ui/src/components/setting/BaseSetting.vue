@@ -2,24 +2,13 @@
 import {ref, reactive} from "vue";
 import {AddSetting} from "@/api/setting.js";
 import {message} from "ant-design-vue";
-import {useAuthStore} from "@/store/index.js";
+import {UploadFile} from "@/api/sysFile.js";
 // import { uploadOutlined, } from '@ant-design/icons-vue';
 
-const previewFile = async file => {
-  console.log('Your upload file:', file);
-  const res = await fetch('https://next.json-generator.com/api/json/get/4ytyBoLK8', {
-    method: 'POST',
-    body: file,
-  });
-  const { thumbnail } = await res.json();
-  return thumbnail;
-};
-const fileList = ref([]);
+
+const fileList = ref([ ]);
 const gap = ref(20)
-const authStore = useAuthStore()
-const headers = reactive({
-  Authorization : 'Bearer ' + authStore.accessToken,
-})
+
 const baseSetting = reactive({
   webName: '12',
   loginName: '',
@@ -39,6 +28,36 @@ const save = () => {
     else
       message.error(data.message);
   })
+}
+
+const handleChange = info => {
+  if (info.file.status !== 'uploading') {
+    // console.log(info.file, info.fileList);
+  }
+  if (info.file.status === 'success') {
+    message.success(`${info.file.name} file uploaded successfully`);
+  } else if (info.file.status === 'error') {
+    message.error(`${info.file.name} file upload failed.`);
+  }
+};
+const upload = (e) => {
+
+  const formData = new FormData();
+  formData.append('file', e.file);
+  UploadFile(formData).then((res) => {
+    if (res.code === 200) {
+      baseSetting.backLogoUrl = res.data
+      fileList.value = fileList.value.filter( item => item.uid === e.uid)
+      fileList.value.push({
+        uid: e.uid,
+        name: e.file.name,
+        status: 'success',
+        url: baseSetting.backLogoUrl,
+        thumbUrl: baseSetting.backLogoUrl,
+      })
+    }
+  })
+
 }
 
 </script>
@@ -63,9 +82,8 @@ const save = () => {
       <a-upload
           v-model:file-list="fileList"
           list-type="picture"
-          action="//jsonplaceholder.typicode.com/posts/"
-          :headers="headers"
-          :preview-file="previewFile"
+          :customRequest="upload"
+          @change="handleChange"
       >
         <a-button>
           <upload-outlined></upload-outlined>
@@ -73,21 +91,22 @@ const save = () => {
         </a-button>
       </a-upload>
     </a-flex>
-   <a-flex style="width: 400px;" :gap="gap">
+<!--   <a-flex style="width: 400px;" :gap="gap">
       <span style="width: 120px;font-weight: bold;">后台LOGO：</span>
          <a-upload
              v-model:file-list="fileList"
              list-type="picture"
-             action="//jsonplaceholder.typicode.com/posts/"
+             action="http://localhost:5182/api/SysFileInfo/uploadFile"
              :preview-file="previewFile"
              :headers="headers"
+             @change="handleChange"
          >
            <a-button>
              <upload-outlined></upload-outlined>
              Upload
            </a-button>
          </a-upload>
-    </a-flex>
+    </a-flex>-->
 
 
     <a-button type="primary" style="width: 200px;margin-top: 100px;" @click="save"  >保存</a-button>
