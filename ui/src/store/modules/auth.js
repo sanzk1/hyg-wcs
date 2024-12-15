@@ -43,6 +43,6 @@ export const useAuthStore = defineStore('auth', {
         },
     },
     persist: {
-        key: 'vue-antdesign-admin_auth',
+        key: 'vue-antDesign-admin_auth',
     },
 })

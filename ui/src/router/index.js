@@ -1,6 +1,6 @@
 //路由文件
 import {createRouter, createWebHashHistory, createWebHistory} from 'vue-router'
-import {useAuthStore, usePermissionStore, useUserStore} from "@/store/index.js";
+import {useAuthStore, usePermissionStore, useSettingStore, useUserStore} from "@/store/index.js";
 import {setupRouterGuards} from "@/router/guards/index.js";
 
 
@@ -87,13 +87,14 @@ export async function initUserAndPermissions() {
     const permissionStore = usePermissionStore()
     const userStore = useUserStore()
     const authStore = useAuthStore()
+    const settingStore = useSettingStore()
 
     if (!authStore.accessToken) {
         authStore.toLogin()
         return
     }
     // [userStore.getUserInfo(),
-    await Promise.all([userStore.getUserInfo(), permissionStore.initPermissions()])
+    await Promise.all([userStore.getUserInfo(), permissionStore.initPermissions(), settingStore.getSetting()])
     permissionStore.accessRoutess.forEach((route) => {
         if (router.hasRoute(route.name)){
             router.removeRoute(route.name)

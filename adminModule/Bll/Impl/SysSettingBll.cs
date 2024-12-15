@@ -42,7 +42,10 @@ namespace adminModule.Bll.Impl
             sysSettingDal.Insert(sysSetting);
             
         }
-        
-        
+
+        public SysSetting GetByKey(string key)
+        {
+            return sysSettingDal.SelectByKey(key);
+        }
     }
 }

@@ -1,24 +1,28 @@
 <script setup>
 import {UserOutlined,LockOutlined } from '@ant-design/icons-vue'
-import {useAuthStore, useTabStore, useUserStore} from "@/store/index.js";
+import {useAuthStore, useSettingStore} from "@/store/index.js";
 import {useRoute, useRouter} from "vue-router";
 import {initUserAndPermissions} from "@/router/index.js";
-import {reactive, computed, toRaw, ref } from "vue";
+import {reactive, computed, toRaw, ref, onMounted } from "vue";
 import {Login} from "@/api/user.js";
 import {message} from "ant-design-vue";
+import {GetSetting} from "@/api/setting.js";
 
-const userStore = useUserStore()
 const authStore = useAuthStore()
+const settingStore = useSettingStore()
 const router = useRouter()
 const route = useRoute()
-const store = useTabStore()
-
 
 const formState = reactive({
   userName: '',
   password: '',
   // remember: true,
 });
+onMounted(() => {
+  logo.value = settingStore.loginLogoUrl()
+
+})
+
 const onFinish = values => {
   console.log('Success:', values);
   login()
@@ -64,7 +68,7 @@ const bgm = ref('../../assets/screenshot.png')
       >
 
         <a-flex :vertical="true" style="margin-bottom: 40px;" justify="center" align="center" >
-          <a-image width="50%" :src="logo" :preview="false" mode="aspectFill" />
+          <a-image width="30%" :src="logo" :preview="false" mode="aspectFill" />
           <span style="font-weight: bold;font-size: 20px;margin: 20px;">WCS</span>
         </a-flex>
         <a-flex :vertical="true" gap="middle">

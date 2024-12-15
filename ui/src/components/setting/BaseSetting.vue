@@ -1,6 +1,6 @@
 <script setup>
-import {ref, reactive} from "vue";
-import {AddSetting} from "@/api/setting.js";
+import {ref, reactive, toRaw, onMounted} from "vue";
+import {AddSetting, GetSetting} from "@/api/setting.js";
 import {message} from "ant-design-vue";
 import {UploadFile} from "@/api/sysFile.js";
 // import { uploadOutlined, } from '@ant-design/icons-vue';
@@ -10,11 +10,26 @@ const fileList = ref([ ]);
 const gap = ref(20)
 
 const baseSetting = reactive({
-  webName: '12',
+  webName: '',
   loginName: '',
   copyright: '',
   backLogoUrl: '',
   loginLogoUrl: '',
+})
+
+onMounted(() => {
+  GetSetting({key:'baseSetting'}).then(res => {
+    if (res.code == 200) {
+      let data = res.data;
+      let json = JSON.parse(data.value);
+      console.log(json);
+      baseSetting.webName = json.webName;
+      baseSetting.loginName = json.loginName;
+      baseSetting.copyright = json.copyright;
+      baseSetting.backLogoUrl = json.backLogoUrl;
+      baseSetting.loginLogoUrl = json.loginLogoUrl;
+    }
+  })
 })
 
 const save = () => {
@@ -22,7 +37,7 @@ const save = () => {
   let data = {key: 'baseSetting', value: JSON.stringify(toRaw(baseSetting))};
   AddSetting(data).then((res) => {
     let data = res.data;
-    if (data.code === 200){
+    if (res.code === 200){
       message.success("保存成功")
     }
     else
@@ -46,14 +61,14 @@ const upload = (e) => {
   formData.append('file', e.file);
   UploadFile(formData).then((res) => {
     if (res.code === 200) {
-      baseSetting.backLogoUrl = res.data
+      baseSetting.loginLogoUrl = res.data
       fileList.value = fileList.value.filter( item => item.uid === e.uid)
       fileList.value.push({
         uid: e.uid,
         name: e.file.name,
         status: 'success',
-        url: baseSetting.backLogoUrl,
-        thumbUrl: baseSetting.backLogoUrl,
+        url: baseSetting.loginLogoUrl,
+        thumbUrl: baseSetting.loginLogoUrl,
       })
     }
   })
@@ -71,11 +86,11 @@ const upload = (e) => {
     </a-flex>
     <a-flex style="width: 400px;" :gap="gap">
       <span style="width: 120px;font-weight: bold;">登录页名称：</span>
-      <a-input  placeholder="请输入登录页名称" />
+      <a-input  v-model:value="baseSetting.loginName" placeholder="请输入登录页名称" />
     </a-flex>
     <a-flex style="width: 400px;" :gap="gap">
       <span style="width: 120px;font-weight: bold;">主页版权：</span>
-      <a-input  placeholder="请输入" />
+      <a-input v-model:value="baseSetting.copyright" placeholder="请输入" />
     </a-flex>
     <a-flex style="width: 400px;" :gap="gap">
       <span style="width: 120px;font-weight: bold;">登录页LOGO：</span>

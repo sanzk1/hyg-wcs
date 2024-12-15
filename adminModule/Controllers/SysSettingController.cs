@@ -26,10 +26,9 @@ namespace adminModule.Controllers
             sysSettingBll.AddOrUpdate(dto);
             return ApiResult.succeed();
         }
-        [HttpPost]
-        public ApiResult update([FromBody]SettingDto dto){
-            sysSettingBll.AddOrUpdate(dto);
-            return ApiResult.succeed();
+        [HttpGet]
+        public ApiResult get(string key){
+            return ApiResult.succeed(sysSettingBll.GetByKey(key));
         }
 
 

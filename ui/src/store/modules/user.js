@@ -60,6 +60,6 @@ export const useUserStore = defineStore('user', {
         },
     },
     persist: {
-        key: 'vue-antdesign-admin-user',
+        key: 'vue-antDesign-admin-user',
     },
 })

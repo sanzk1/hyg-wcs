@@ -13,7 +13,7 @@ namespace adminModule.Dal.Impl
     [Service(ServiceLifetime.Singleton)]
     public class SysSettingDal : ISysSettingDal
     {
-        private DbClientFactory dbClientFactory => ServiceUtil.ServiceProvider.GetRequiredService<DbClientFactory>();
+        private DbClientFactory dbClientFactory => ServiceUtil.GetRequiredService<DbClientFactory>();
 
         
 
@@ -35,6 +35,13 @@ namespace adminModule.Dal.Impl
             using var db = dbClientFactory.GetSqlSugarClient();
             return db.Queryable<SysSetting>().Single( s => s.keyName.Equals(keyName));
         }
+
+        public SysSetting SelectByKey(string keyName)
+        {
+            using var db = dbClientFactory.GetSqlSugarClient();
+            return db.Queryable<SysSetting>().Single( s => s.keyName.Equals(keyName));
+        }
+        
     }
 
 }

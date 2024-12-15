@@ -12,7 +12,11 @@ public static class ServiceUtil
     {
         ServiceProvider = app.ApplicationServices;
     }
-    
+
+    public static T GetRequiredService<T>()
+    {
+        return ServiceProvider.GetRequiredService<T>();
+    }
 
     
 }
