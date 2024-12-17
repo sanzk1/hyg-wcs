@@ -27,6 +27,10 @@ public class InterfaceRequestConfig
     /// </summary>
     public string requestBody { set; get; } = string.Empty;
     /// <summary>
+    /// 响应参数 0数据字符串json  1文件
+    /// </summary>
+    public int responseType { set; get; } = 0;
+    /// <summary>
     /// 授权请求头key
     /// </summary>
     public string authTypeKey { set; get; } = string.Empty;
