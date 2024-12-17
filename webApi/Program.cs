@@ -131,6 +131,7 @@ app.UseServiceProvider();
 //     db.CodeFirst.InitTables<OtherSysInfo>();
 //     db.CodeFirst.InitTables<S7DataPoint>();db.CodeFirst.InitTables<ProtocolLog>();
 //     db.CodeFirst.InitTables<SysSetting>();db.CodeFirst.InitTables<SysFileInfo>();
+//     db.CodeFirst.InitTables<InterfaceRequestConfig>();db.CodeFirst.InitTables<OpcUaDataPoint>();
 // }
 
 
