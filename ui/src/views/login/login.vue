@@ -6,7 +6,6 @@ import {initUserAndPermissions} from "@/router/index.js";
 import {reactive, computed, toRaw, ref, onMounted } from "vue";
 import {Login} from "@/api/user.js";
 import {message} from "ant-design-vue";
-import {GetSetting} from "@/api/setting.js";
 
 const authStore = useAuthStore()
 const settingStore = useSettingStore()
@@ -19,10 +18,14 @@ const formState = reactive({
   // remember: true,
 });
 onMounted(() => {
-  logo.value = settingStore.loginLogoUrl()
+  logo.value = settingStore.loginLogoUrl
+  // initSetting()
 
 })
-
+const initSetting = async () => {
+  await settingStore.getSetting()
+  logo.value = settingStore.loginLogoUrl
+}
 const onFinish = values => {
   console.log('Success:', values);
   login()
@@ -87,7 +90,7 @@ const bgm = ref('../../assets/screenshot.png')
             name="password"
             :rules="[{ required: true, message: 'Please input your password!' }]"
         >
-          <a-input-password v-model:value="formState.password" size="large">
+          <a-input-password v-model:value="formState.password" size="large" autocomplete="off">
             <template #prefix>
               <LockOutlined class="site-form-item-icon" />
             </template>
@@ -95,7 +98,7 @@ const bgm = ref('../../assets/screenshot.png')
         </a-form-item>
 
         <a-form-item>
-          <a-button :disabled="disabled" type="primary" size="large" html-type="submit" class="login-form-button">
+          <a-button :disabled="disabled" type="primary" size="large" html-type="submit" class="login-form-button" >
             登录
           </a-button>
         </a-form-item>
