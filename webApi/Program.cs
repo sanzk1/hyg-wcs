@@ -144,3 +144,6 @@ app.UseInitializesQuartzModule();
 
 
 app.Run();
+
+
+public partial class Program { }

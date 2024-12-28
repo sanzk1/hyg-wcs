@@ -27,7 +27,7 @@ public class HttpUtil
     /// <param name="headers"></param>
     /// <returns></returns>
     public async Task<HttpResponseMessage> GetAsync(string url, Dictionary<string, string>? headers, int timeout = 30)
-    {
+    {   
         using var client = _httpClientFactory.CreateClient();
         if (headers is not null)
         {
@@ -80,6 +80,21 @@ public class HttpUtil
         StringContent stringContent = new StringContent(JsonSerializer.Serialize(content), Encoding.UTF8);
         client.Timeout = TimeSpan.FromSeconds(timeout);
         return await client.PostAsync(new Uri(url), stringContent);
+    }
+    
+    public async Task<HttpResponseMessage> PostFormDataAsAsync(string url, Dictionary<string, string>? headers, 
+        MultipartFormDataContent content, int timeout = 30)
+    {
+        using var client = _httpClientFactory.CreateClient();
+        if (headers is not null)
+        {
+            foreach (var keyValuePair in headers)
+            {
+                client.DefaultRequestHeaders.Add(keyValuePair.Key, keyValuePair.Value);
+            }
+        }
+        client.Timeout = TimeSpan.FromSeconds(timeout);
+        return await client.PostAsync(new Uri(url), content);
     }
     
 

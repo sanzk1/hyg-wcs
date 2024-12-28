@@ -19,6 +19,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "otherSystemModule", "otherS
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "jobcoreModule", "jobcoreModule\jobcoreModule.csproj", "{BEF1CD53-AC06-4C28-A712-7F0DC04BDC17}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "webAppiTest", "webAppiTest\webAppiTest.csproj", "{E47D8A48-325E-4BC0-B97B-0FCD7B7CA221}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -57,6 +59,10 @@ Global
 		{BEF1CD53-AC06-4C28-A712-7F0DC04BDC17}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{BEF1CD53-AC06-4C28-A712-7F0DC04BDC17}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{BEF1CD53-AC06-4C28-A712-7F0DC04BDC17}.Release|Any CPU.Build.0 = Release|Any CPU
+		{E47D8A48-325E-4BC0-B97B-0FCD7B7CA221}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{E47D8A48-325E-4BC0-B97B-0FCD7B7CA221}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{E47D8A48-325E-4BC0-B97B-0FCD7B7CA221}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{E47D8A48-325E-4BC0-B97B-0FCD7B7CA221}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
