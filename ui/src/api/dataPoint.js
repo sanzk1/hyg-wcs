@@ -1,5 +1,40 @@
 import {request} from "@/utils/http/index.js";
 
+export const GetOpcUaList = (data)=>{
+    return request({
+        url: '/OpcUaDataPoint/getList',
+        method: 'post',
+        data: data
+    })
+}
+export const AddOrUpdateOpcUa = (data)=>{
+    return request({
+        url: '/OpcUaDataPoint/addOrUpdate',
+        method: 'post',
+        data: data
+    })
+}
+export const DelOpcUa = (data)=>{
+    return request({
+        url: '/OpcUaDataPoint/del',
+        method: 'delete',
+        data: data
+    })
+}
+export const ReadByIdOpcUa = (data)=>{
+    return request({
+        url: '/OpcUaDataPoint/readById/' + data,
+        method: 'get',
+    })
+}
+export const WriteByIdOpcUa = (data)=>{
+    return request({
+        url: '/OpcUaDataPoint/writeById',
+        method: 'post',
+        data: data
+    })
+}
+
 export const GetS7List = (data)=>{
     return request({
         url: '/S7DataPoint/getList',
