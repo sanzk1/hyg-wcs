@@ -57,9 +57,9 @@ public class OpcUaDataPointDal : IOpcUaDataPointDal
         using var db = dbClientFactory.GetSqlSugarClient();
         var exp = Expressionable.Create<OpcUaDataPoint>();
         exp.AndIF(!string.IsNullOrEmpty(query.name), e => e.name.Contains(query.name));
-        exp.AndIF(!string.IsNullOrEmpty(query.category), e => e.name.Contains(query.category));
-        exp.AndIF(!string.IsNullOrEmpty(query.identifier), e => e.name.Contains(query.identifier));
-        exp.AndIF(!string.IsNullOrEmpty(query.ip), e => e.name.Contains(query.ip));
+        exp.AndIF(!string.IsNullOrEmpty(query.category), e => e.category.Contains(query.category));
+        exp.AndIF(!string.IsNullOrEmpty(query.identifier), e => e.identifier.Contains(query.identifier));
+        exp.AndIF(!string.IsNullOrEmpty(query.ip), e => e.endpoint.Contains(query.ip));
 
         Pager<OpcUaDataPoint> pager = new(query.pageNum, query.pageSize);
         pager.rows = db.Queryable<OpcUaDataPoint>().Where(exp.ToExpression())

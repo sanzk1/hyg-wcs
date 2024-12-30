@@ -51,7 +51,7 @@ public class OpcUaDataPointController  : ControllerBase
     }
 
     [HttpPost]
-    public ApiResult update(long id, object value)
+    public ApiResult writeById(long id, object value)
     {
         return ApiResult.succeed(_opcUaDataPointBll.WriteById(id, value));
     }
