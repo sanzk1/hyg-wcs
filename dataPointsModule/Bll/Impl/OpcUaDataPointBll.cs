@@ -95,7 +95,7 @@ public class OpcUaDataPointBll : IOpcUaDataPointBll
         return _manager.Write(point, value);
     }
 
-    public DataPointDto WriteByName(long id, object value)
+    public DataPointDto WriteById(long id, object value)
     {
         var point = _opcUaDataPointDal.SelectById(id);
         return _manager.Write(point, value);

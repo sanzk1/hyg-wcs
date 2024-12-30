@@ -13,7 +13,7 @@ public interface IOpcUaDataPointBll
     public DataPointDto ReadByName(string name);
     public DataPointDto ReadById(long id);
     public DataPointDto WriteByName(string name, object value);
-    public DataPointDto WriteByName(long id, object value);
+    public DataPointDto WriteById(long id, object value);
     
     public void DeleteBatch(List<long> ids);
 
