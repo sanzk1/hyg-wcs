@@ -9,7 +9,7 @@ using SqlSugar;
 
 namespace dataPointsModule.Bll.Impl;
 
-[Service(ServiceLifetime.Singleton)]
+[Service]
 public class ProtocolLogBll : IProtocolLogBll
 {
     private readonly ILogger<ProtocolLogBll> _logger;

@@ -10,7 +10,7 @@ using Yitter.IdGenerator;
 
 namespace dataPointsModule.Bll.Impl;
 
-[Service(ServiceLifetime.Singleton)]
+[Service]
 public class ModbusDataBll : IModbusDataBll
 {
     private readonly ILogger<ModbusDataBll> _logger;

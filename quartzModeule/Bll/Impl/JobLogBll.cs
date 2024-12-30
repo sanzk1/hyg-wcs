@@ -9,7 +9,7 @@ using Yitter.IdGenerator;
 
 namespace quartzModeule.Bll.Impl;
 
-[Service(ServiceLifetime.Singleton)]
+[Service]
 public class JobLogBll : IJobLogBll
 {
     private readonly DbClientFactory _dbClientFactory;

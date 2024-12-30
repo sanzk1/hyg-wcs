@@ -11,7 +11,7 @@ using otherSystemModule.Dal;
 namespace otherSystemModule.Bll.Impl;
 
 
-[Service(ServiceLifetime.Singleton)]
+[Service]
 public class InterfaceRequestConfigBll : IInterfaceRequestConfigBll
 {
     private readonly IInterfaceRequestConfigDal _interfaceRequestConfigDal;

@@ -12,7 +12,7 @@ using Microsoft.Extensions.DependencyInjection;
 
 namespace dataPointsModule.Bll.Impl;
 
-[Service(ServiceLifetime.Singleton)]
+[Service]
 public class OpcUaDataPointBll : IOpcUaDataPointBll
 {
     private readonly IOpcUaDataPointDal _opcUaDataPointDal;

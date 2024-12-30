@@ -1,19 +1,15 @@
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
+
 using System.Transactions;
 using adminModule.Dal;
 using api.Common.DTO;
 using domain.Pojo.sys;
 using infrastructure.Attributes;
-using Microsoft.Extensions.DependencyInjection;
 using Yitter.IdGenerator;
 
 namespace adminModule.Bll.Impl
 {
 
-    [Service(ServiceLifetime.Singleton)]
+    [Service]
     public class SysSettingBll : ISysSettingBll
     {
         private readonly ISysSettingDal sysSettingDal;

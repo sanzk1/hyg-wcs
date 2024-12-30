@@ -8,7 +8,7 @@ using SqlSugar;
 namespace adminModule.Bll.Impl;
 
 
-[Service(ServiceLifetime.Singleton)]
+[Service]
 public class SysLogBll : ISysLogBll
 {
     private readonly DbClientFactory _dbClientFactory;

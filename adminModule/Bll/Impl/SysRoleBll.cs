@@ -4,7 +4,6 @@ using domain.Vo;
 using infrastructure.Attributes;
 using infrastructure.Db;
 using infrastructure.Exceptions;
-using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Logging;
 using SqlSugar;
 using Yitter.IdGenerator;
@@ -12,7 +11,7 @@ using Yitter.IdGenerator;
 namespace adminModule.Bll.Impl
 {
 
-    [Service(ServiceLifetime.Singleton)]
+    [Service]
     public class SysRoleBll : ISysRoleBll
     {
         private readonly DbClientFactory dbClientFactory;

@@ -5,21 +5,14 @@ using domain.Vo;
 using infrastructure.Attributes;
 using infrastructure.Db;
 using infrastructure.Exceptions;
-using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Logging;
-using Microsoft.Extensions.Options;
 using SqlSugar;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using Yitter.IdGenerator;
 
 namespace adminModule.Bll.Impl
 {
 
-    [Service(ServiceLifetime.Singleton)]
+    [Service]
     public class SysMenuBll : ISysMenuBll
     {
 

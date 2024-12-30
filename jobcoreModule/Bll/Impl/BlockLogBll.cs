@@ -8,7 +8,7 @@ using Yitter.IdGenerator;
 namespace jobcoreModule.Bll.Impl;
 
 
-[Service(ServiceLifetime.Singleton)]
+[Service]
 public class BlockLogBll : IBlockLogBll
 {
     

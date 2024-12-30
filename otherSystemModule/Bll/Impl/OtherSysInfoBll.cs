@@ -11,7 +11,7 @@ using Yitter.IdGenerator;
 
 namespace otherSystemModule.Bll.Impl;
 
-[Service(ServiceLifetime.Singleton)]
+[Service]
 public class OtherSysInfoBll : IOtherSysInfoBll
 {
 

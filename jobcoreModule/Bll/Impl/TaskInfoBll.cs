@@ -17,7 +17,7 @@ namespace jobcoreModule.Bll.Impl;
 /// <summary>
 /// 任务管理
 /// </summary>
-[Service(ServiceLifetime.Singleton)]
+[Service]
 public class TaskInfoBll : ITaskInfoBll
 {
     private readonly ILogger<TaskInfoBll> _logger;

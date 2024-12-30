@@ -16,7 +16,7 @@ using SqlSugar;
 
 namespace dataPointsModule.Bll.Impl;
 
-[Service(ServiceLifetime.Singleton)]
+[Service]
 public class S7DataPointBll : IS7DataPointBll
 {
     private readonly ILogger<S7DataPointBll> _logger;

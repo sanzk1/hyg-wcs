@@ -14,7 +14,7 @@ using Yitter.IdGenerator;
 
 namespace adminModule.Bll.Impl;
 
-[Service(ServiceLifetime.Singleton)]
+[Service]
 public class SysFileInfoBll : ISysFileInfoBll
 {
     private readonly string baseFilePath;

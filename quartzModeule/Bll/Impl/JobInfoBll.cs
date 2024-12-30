@@ -12,7 +12,7 @@ using Yitter.IdGenerator;
 
 namespace quartzModeule.Bll.Impl;
 
-[Service(ServiceLifetime.Singleton)]
+[Service]
 public class JobInfoBll : IJobInfoBll
 {
 

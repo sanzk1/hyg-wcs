@@ -9,7 +9,7 @@ using Yitter.IdGenerator;
 
 namespace otherSystemModule.Bll.Impl;
 
-[Service(ServiceLifetime.Singleton)]
+[Service]
 public class OtherSysLogBll : IOtherSysLogBll
 {
     private readonly ILogger<OtherSysLogBll> _logger;
