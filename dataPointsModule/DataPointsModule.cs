@@ -1,7 +1,4 @@
-﻿using AspectCore.Configuration;
-using AspectCore.Extensions.DependencyInjection;
-using dataPointsModule.Attributes;
-using dataPointsModule.Bll;
+﻿using dataPointsModule.Bll;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.Extensions.DependencyInjection;
 
@@ -18,6 +15,7 @@ public static class DataPointsModule
     public static void UseInitializesDataPointsModule(this IApplicationBuilder app)
     {
         app.ApplicationServices.GetService<IS7DataPointBll>().Initializes();
+        app.ApplicationServices.GetService<IOpcUaDataPointBll>().Initializes();
     }
     
     

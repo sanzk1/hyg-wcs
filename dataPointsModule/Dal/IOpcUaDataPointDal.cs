@@ -17,5 +17,7 @@ public interface IOpcUaDataPointDal
     OpcUaDataPoint SelectByNameAndOperate(string name, OperateEnum operate);
     
     Pager<OpcUaDataPoint> SelectList(OpcUaDataPointQuery query);
+
+    List<string> SelectEndpoints();
     
 }

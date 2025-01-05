@@ -23,6 +23,18 @@ public class OpcUaDataPointBll : IOpcUaDataPointBll
         _opcUaDataPointDal = opcUaDataPointDal;
     }
 
+    public void Initializes()
+    {
+        List<string> selectEndpoints = _opcUaDataPointDal.SelectEndpoints();
+        if (selectEndpoints.Count == 0)
+            return;
+        selectEndpoints.ForEach(item =>
+        {
+            _manager.Connect(new OpcUaDataPoint(){ endpoint = item});
+        });
+        
+    }
+
     [TransactionScope(TransactionScopeOption.Required)]
     public void Save(OpcUaDataPoint point)
     {

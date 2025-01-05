@@ -8,6 +8,7 @@ namespace dataPointsModule.Bll;
 public interface IOpcUaDataPointBll
 {
 
+    public void Initializes();
     public void Save(OpcUaDataPoint point);
     
     public DataPointDto ReadByName(string name);

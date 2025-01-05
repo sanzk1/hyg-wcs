@@ -10,7 +10,7 @@ using SqlSugar;
 namespace dataPointsModule.Dal.Impl;
 
 
-[Service(ServiceLifetime.Singleton)]
+[Service(ServiceLifetime.Scoped)]
 public class OpcUaDataPointDal : IOpcUaDataPointDal
 {
     private DbClientFactory dbClientFactory => ServiceUtil.GetRequiredService<DbClientFactory>();
@@ -67,6 +67,14 @@ public class OpcUaDataPointDal : IOpcUaDataPointDal
             .ToList();
         pager.total = db.Queryable<OpcUaDataPoint>().Where(exp.ToExpression()).Count();
         
-        return pager;;
+        return pager;
+    }
+
+    public List<string> SelectEndpoints()
+    {
+        using var db = dbClientFactory.GetSqlSugarClient();
+        List<string> list = db.Queryable<OpcUaDataPoint>().Select<string>(o => o.endpoint).Distinct().ToList();
+        return list;
+        
     }
 }
