@@ -21,7 +21,7 @@ public class S7Manager : ManagerAbstract<S7DataPoint>, IS7Manager
 {
     public readonly ConcurrentDictionary<string, Plc> S7Online = new();
     private readonly ILogger<S7Manager> logger;
-    private object obj = new();
+    private object s7Lock = new();
     
     public S7Manager(ILogger<S7Manager> logger) 
     {
@@ -34,8 +34,12 @@ public class S7Manager : ManagerAbstract<S7DataPoint>, IS7Manager
         {
             Plc plc = new Plc(getCpuType(t.cpuType), t.ip, t.port, Convert.ToInt16(t.rack), Convert.ToInt16(t.slot));
             plc.Open();
-            S7Online.TryAdd(getPlcKey(t), plc);
-            logger.LogInformation($"S7协议plc连接成功，IP：{t.ip}");
+            bool b = S7Online.TryAdd(getPlcKey(t), plc);
+            if (b)
+                logger.LogInformation($"S7协议plc连接成功，IP：{t.ip}");
+            else
+                plc.Close();
+           
         }
         catch (Exception ex)
         {
@@ -77,7 +81,7 @@ public class S7Manager : ManagerAbstract<S7DataPoint>, IS7Manager
         }
         catch (Exception ex) 
         {
-            logger.LogInformation($"S7协议plc正在重新连接异常，IP：{t.ip}");
+            logger.LogInformation($"S7协议plc正在重新连接异常，IP：{t.ip}，原因：{ex.Message}");
         }
     }
 
@@ -85,7 +89,7 @@ public class S7Manager : ManagerAbstract<S7DataPoint>, IS7Manager
     {
         try
         {
-            lock (obj)
+            lock (s7Lock)
             {
                 // 存在并已连接则获取
                 // 反之重新连接  

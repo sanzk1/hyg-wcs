@@ -1,10 +1,11 @@
-﻿using SqlSugar;
+﻿using domain.Enums;
+using SqlSugar;
 
 namespace domain.Pojo.protocol;
 
 
 /// <summary>
-/// 数据点
+/// Modbus数据点
 /// </summary>
 public class ModbusDataPoint
 {
@@ -31,13 +32,25 @@ public class ModbusDataPoint
     /// </summary>
     public int startAddress { set; get; } = 0;
     /// <summary>
+    /// 数据类型
+    /// </summary>
+    public string dataType { set; get; } = "ushort";
+    /// <summary>
+    /// 字节格式
+    /// </summary>
+    public string format { set; get; } = "ABCD";
+    /// <summary>
     /// 长度
     /// </summary>
     public int length { set; get; } = 1;
     /// <summary>
+    /// 是否只读
+    /// </summary>
+    public bool readOnly { set; get; } = false;
+    /// <summary>
     /// 值
     /// </summary>
-    public int value { set; get; } = 0;
+    public object value { set; get; } = 0;
     /// <summary>
     /// 备注
     /// </summary>

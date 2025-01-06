@@ -12,6 +12,7 @@
     </ItemGroup>
 
     <ItemGroup>
+      <PackageReference Include="IoTClient" Version="1.0.42" />
       <PackageReference Include="S7netplus" Version="0.20.0" />
       <PackageReference Include="Workstation.UaClient" Version="3.2.3" />
     </ItemGroup>

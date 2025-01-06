@@ -22,7 +22,7 @@ public class OpcUaManager : ManagerAbstract<OpcUaDataPoint>, IOpcUaManager
     public string[] accessTypes = { "s", "i", "g" };
     public readonly ConcurrentDictionary<string, ClientSessionChannel> ClientSessionChannels = new ();
     private readonly ILogger<OpcUaManager> logger;
-    private object obj = new();
+    private object opcUaLock = new();
     
 
     public OpcUaManager(ILogger<OpcUaManager> logger)
@@ -92,7 +92,7 @@ public class OpcUaManager : ManagerAbstract<OpcUaDataPoint>, IOpcUaManager
     {
         try
         {
-            lock (obj)
+            lock (opcUaLock)
             {
                 bool b = ClientSessionChannels.TryGetValue(t.endpoint, out ClientSessionChannel plc);
                 if (b && plc.State == CommunicationState.Opened)
