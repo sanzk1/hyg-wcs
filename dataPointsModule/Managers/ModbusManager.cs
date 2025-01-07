@@ -125,22 +125,101 @@ public class ModbusManager : ManagerAbstract<ModbusDataPoint>, IModbusManager
         {
             return new DataPointDto(false, null, $"Modbus设备不在线，IP：{t.ip} port:{t.port}");
         }
-        object? res = null;
         try
         {
-
-            return new DataPointDto();
+            if (t.readOnly)
+            {
+                var retI = client.ReadDiscrete(t.startAddress, (byte)t.stationNo);
+                return new DataPointDto(retI.IsSucceed, retI.Value, retI.Err);
+            }
+            switch (t.dataType)
+            {
+                case "Bool":
+                    var retb = client.ReadCoil(t.startAddress, (byte)t.stationNo);
+                    return new DataPointDto(retb.IsSucceed, retb.Value, retb.Err);
+                case "Double":
+                    var retd = client.ReadDouble(t.startAddress, (byte)t.stationNo);
+                    return new DataPointDto(retd.IsSucceed, retd.Value, retd.Err);
+                case "Float":
+                    var retf = client.ReadFloat(t.startAddress, (byte)t.stationNo);
+                    return new DataPointDto(retf.IsSucceed, retf.Value, retf.Err);
+                case "Int16":
+                    var retInt16 = client.ReadInt16(t.startAddress, (byte)t.stationNo);
+                    return new DataPointDto(retInt16.IsSucceed, retInt16.Value, retInt16.Err);
+                case "Int32":
+                    var retInt32 = client.ReadInt32(t.startAddress, (byte)t.stationNo);
+                    return new DataPointDto(retInt32.IsSucceed, retInt32.Value, retInt32.Err);
+                case "Int64":
+                    var retInt64 = client.ReadInt64(t.startAddress, (byte)t.stationNo);
+                    return new DataPointDto(retInt64.IsSucceed, retInt64.Value, retInt64.Err);
+                case "UInt16":
+                    var retUInt16 = client.ReadUInt16(t.startAddress, (byte)t.stationNo);
+                    return new DataPointDto(retUInt16.IsSucceed, retUInt16.Value, retUInt16.Err);
+                case "UInt32":
+                    var retUInt32 = client.ReadUInt32(t.startAddress, (byte)t.stationNo);
+                    return new DataPointDto(retUInt32.IsSucceed, retUInt32.Value, retUInt32.Err);
+                case "UInt64":
+                    var retUInt64 = client.ReadUInt64(t.startAddress, (byte)t.stationNo);
+                    return new DataPointDto(retUInt64.IsSucceed, retUInt64.Value, retUInt64.Err);
+                default:
+                    return new DataPointDto(false, string.Empty, "数据类型未知");
+            }
         }
         catch (Exception ex)
         {
-            return new DataPointDto(false, res, ex.Message);
+            return DataPointDto.failed(ex.Message);
         }
-        
     }
+    
+    
 
-    public DataPointDto Write(ModbusDataPoint t)
+    [ProtocolLog(OperateEnum.Write, ProtocolEnum.ModbusTcp)]
+    public DataPointDto Write(ModbusDataPoint t, object value)
     {
-        throw new NotImplementedException();
+        ModbusTcpClient client = GetDevice(t) as ModbusTcpClient;
+        if (client == null)
+        {
+            return new DataPointDto(false, null, $"Modbus设备不在线，IP：{t.ip} port:{t.port}");
+        }
+        try
+        {
+            switch (t.dataType)
+            {
+                case "Bool":
+                    var retb = client.Write(t.startAddress.ToString(), (bool) value, (byte)t.stationNo);
+                    return new DataPointDto(retb.IsSucceed, value, retb.Err);
+                case "Double":
+                    var retd = client.Write(t.startAddress.ToString(), (double) value, (byte)t.stationNo);
+                    return new DataPointDto(retd.IsSucceed, value, retd.Err);
+                case "Float":
+                    var retf = client.Write(t.startAddress.ToString(), (float)value, (byte)t.stationNo);
+                    return new DataPointDto(retf.IsSucceed, value, retf.Err);
+                case "Int16":
+                    var retInt16 = client.Write(t.startAddress.ToString(), (Int16) value,  (byte)t.stationNo);
+                    return new DataPointDto(retInt16.IsSucceed, value, retInt16.Err);
+                case "Int32":
+                    var retInt32 = client.Write(t.startAddress.ToString(), (Int32) value, (byte)t.stationNo);
+                    return new DataPointDto(retInt32.IsSucceed, value, retInt32.Err);
+                case "Int64":
+                    var retInt64 = client.Write(t.startAddress.ToString(), (Int64) value,  (byte)t.stationNo);
+                    return new DataPointDto(retInt64.IsSucceed, value, retInt64.Err);
+                case "UInt16":
+                    var retUInt16 = client.Write(t.startAddress.ToString(), (UInt16) value,  (byte)t.stationNo);
+                    return new DataPointDto(retUInt16.IsSucceed, value, retUInt16.Err);
+                case "UInt32":
+                    var retUInt32 = client.Write(t.startAddress.ToString(), (UInt32) value,  (byte)t.stationNo);
+                    return new DataPointDto(retUInt32.IsSucceed, value, retUInt32.Err);
+                case "UInt64":
+                    var retUInt64 = client.Write(t.startAddress.ToString(), (UInt64) value,  (byte)t.stationNo);
+                    return new DataPointDto(retUInt64.IsSucceed, value, retUInt64.Err);
+                default:
+                    return new DataPointDto(false, string.Empty, "数据类型未知");
+            }
+        }
+        catch (Exception ex)
+        {
+            return DataPointDto.failed(ex.Message);
+        }
     }
 
     private string getKey(ModbusDataPoint t)

@@ -28,6 +28,10 @@ public class ModbusDataPoint
     /// </summary>
     public int port { set; get; } = 502;
     /// <summary>
+    /// 从站
+    /// </summary>
+    public int stationNo { set; get; } = 1;
+    /// <summary>
     /// 开始地址
     /// </summary>
     public int startAddress { set; get; } = 0;

@@ -17,5 +17,15 @@ public class DataPointDto
         this.value = value;
         this.msg = msg;
     }
+
+    public static DataPointDto ok(object value)
+    {
+        return new DataPointDto(true, value, string.Empty);
+    }
+    public static DataPointDto failed(string msg)
+    {
+        return new DataPointDto(false, string.Empty, msg);
+    }
+    
     
 }

@@ -13,7 +13,7 @@ namespace dataPointsModule.Managers
 
         DataPointDto Read(ModbusDataPoint t);
 
-        DataPointDto Write(ModbusDataPoint t);
+        DataPointDto Write(ModbusDataPoint t, object value);
 
 
 

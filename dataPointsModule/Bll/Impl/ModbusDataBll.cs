@@ -1,4 +1,7 @@
-﻿using domain.Pojo.protocol;
+﻿using api.Common.DTO;
+using dataPointsModule.Dal;
+using dataPointsModule.Managers;
+using domain.Pojo.protocol;
 using domain.Result;
 using infrastructure.Attributes;
 using infrastructure.Db;
@@ -14,26 +17,25 @@ namespace dataPointsModule.Bll.Impl;
 public class ModbusDataBll : IModbusDataBll
 {
     private readonly ILogger<ModbusDataBll> _logger;
-    private readonly DbClientFactory _dbClientFactory;
+    private readonly IModbusDataDal _modbusDataDal;
+    private readonly IModbusManager _manager;
 
-    public ModbusDataBll(ILogger<ModbusDataBll> logger, DbClientFactory dbClientFactory)
+    public ModbusDataBll(ILogger<ModbusDataBll> logger, IModbusDataDal modbusDataDal, IModbusManager manager)
     {
         this._logger = logger;
-        this._dbClientFactory = dbClientFactory;
+        this._modbusDataDal = modbusDataDal;
+        this._manager = manager;
     }
     
-    public async void Save(ModbusDataPoint modbusDataPoint)
+    public void Save(ModbusDataPoint modbusDataPoint)
     {
-        using var db = _dbClientFactory.GetSqlSugarClient();
-        ModbusDataPoint? m1 = await db.Queryable<ModbusDataPoint>().SingleAsync(x => x.name.Equals(modbusDataPoint.name));
+        ModbusDataPoint m1 = _modbusDataDal.SelectByName(modbusDataPoint.name);
         if (null != m1)
         {
             throw new BusinessException(HttpCode.FAILED_CODE, "数据点名称已存在");
         }
-
         modbusDataPoint.id = YitIdHelper.NextId();
-        db.Insertable<ModbusDataPoint>(modbusDataPoint).ExecuteCommand();
-
+        _modbusDataDal.Insert(modbusDataPoint);
     }
 
     public void Remove(List<long> ids)
@@ -42,12 +44,36 @@ public class ModbusDataBll : IModbusDataBll
         {
             return;
         }
-        using var db = _dbClientFactory.GetSqlSugarClient();
-        db.Deleteable<ModbusDataPoint>().In(ids);
+        _modbusDataDal.Delete(ids);
     }
 
     public Pager<ModbusDataPoint> Find()
     {
         throw new NotImplementedException();
     }
+
+    public DataPointDto ReadById(long id)
+    {
+        ModbusDataPoint m = _modbusDataDal.SelectById(id);
+        return _manager.Read(m);
+    }
+
+    public DataPointDto ReadByName(string name)
+    {
+        ModbusDataPoint m = _modbusDataDal.SelectByName(name);
+        return _manager.Read(m);
+    }
+
+    public DataPointDto WriteByName(string name, object value)
+    {
+        ModbusDataPoint m = _modbusDataDal.SelectByName(name);
+        return _manager.Write(m, value);
+    }
+
+    public DataPointDto WriteById(long id, object value)
+    {
+        ModbusDataPoint m = _modbusDataDal.SelectById(id);
+        return _manager.Write(m, value);
+    }
+    
 }

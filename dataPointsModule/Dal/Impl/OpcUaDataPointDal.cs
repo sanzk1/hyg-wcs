@@ -10,7 +10,7 @@ using SqlSugar;
 namespace dataPointsModule.Dal.Impl;
 
 
-[Service(ServiceLifetime.Scoped)]
+[Service]
 public class OpcUaDataPointDal : IOpcUaDataPointDal
 {
     private DbClientFactory dbClientFactory => ServiceUtil.GetRequiredService<DbClientFactory>();
