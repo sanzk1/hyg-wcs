@@ -1,5 +1,6 @@
 ﻿using api.Common.DTO;
 using domain.Pojo.protocol;
+using domain.Records;
 using infrastructure.Utils;
 
 namespace dataPointsModule.Bll;
@@ -19,7 +20,9 @@ public interface IModbusDataBll
     public void Remove(List<long> ids);
 
     
-    public Pager<ModbusDataPoint> Find();
+    public Pager<ModbusDataPoint> GetList(ModbusDataQuery query);
+
+    public ModbusDataPoint Get(long id);
 
 
     public DataPointDto ReadById(long id);

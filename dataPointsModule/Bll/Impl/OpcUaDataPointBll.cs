@@ -16,11 +16,12 @@ namespace dataPointsModule.Bll.Impl;
 public class OpcUaDataPointBll : IOpcUaDataPointBll
 {
     private readonly IOpcUaDataPointDal _opcUaDataPointDal;
-    private readonly OpcUaManager _manager;
+    private readonly IOpcUaManager _manager;
 
-    public OpcUaDataPointBll(IOpcUaDataPointDal opcUaDataPointDal)
+    public OpcUaDataPointBll(IOpcUaDataPointDal opcUaDataPointDal, IOpcUaManager manager)
     {
         _opcUaDataPointDal = opcUaDataPointDal;
+        _manager = manager;
     }
 
     public void Initializes()
@@ -98,18 +99,30 @@ public class OpcUaDataPointBll : IOpcUaDataPointBll
     public DataPointDto ReadById(long id)
     {
         var point = _opcUaDataPointDal.SelectById(id);
+        if (point is null)
+        {
+            throw new BusinessException("数据点不存在");
+        }
         return _manager.Read(point);
     }
 
     public DataPointDto WriteByName(string name, object value)
     {
         var point = _opcUaDataPointDal.SelectByNameAndOperate(name, OperateEnum.Write);
+        if (point is null)
+        {
+            throw new BusinessException("数据点不存在");
+        }
         return _manager.Write(point, value);
     }
 
     public DataPointDto WriteById(long id, object value)
     {
         var point = _opcUaDataPointDal.SelectById(id);
+        if (point is null)
+        {
+            throw new BusinessException("数据点不存在");
+        }
         return _manager.Write(point, value);
     }
 

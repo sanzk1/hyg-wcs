@@ -5,6 +5,7 @@ using dataPointsModule.Managers;
 using domain.Enums;
 using domain.Pojo.protocol;
 using domain.Records;
+using domain.Result;
 using infrastructure.Attributes;
 using infrastructure.Db;
 using infrastructure.Exceptions;
@@ -79,9 +80,7 @@ public class S7DataPointBll : IS7DataPointBll
         {
             throw new BusinessException("数据点名称已存在");
         }
-
         db.Insertable(point).ExecuteCommand();
-
     }
 
     public void Del(List<long> ids)
@@ -98,6 +97,10 @@ public class S7DataPointBll : IS7DataPointBll
     {
         using var db = _dbClientFactory.GetSqlSugarClient();
         S7DataPoint s7point = db.Queryable<S7DataPoint>().First(x => x.id == point.id);
+        if (s7point is null)
+        {
+            throw new BusinessException(HttpCode.FAILED_CODE, "数据点不存在");
+        }
         db.Updateable(point);
     }
 
@@ -134,9 +137,9 @@ public class S7DataPointBll : IS7DataPointBll
         using var db = _dbClientFactory.GetSqlSugarClient();
         S7DataPoint? point = db.Queryable<S7DataPoint>()
             .Where(x => name.Equals(x.name) && x.operate == OperateEnum.Read).First();
-        if (point == null)
+        if (point is null)
         {
-            return new DataPointDto(false, null, "数据点不存在");
+            throw new BusinessException(HttpCode.FAILED_CODE, "数据点不存在");
         }
         return _manager.Read(point);
     }
@@ -146,9 +149,9 @@ public class S7DataPointBll : IS7DataPointBll
         using var db = _dbClientFactory.GetSqlSugarClient();
         S7DataPoint? point = db.Queryable<S7DataPoint>()
             .Where(x => name.Equals(x.name) && x.operate == OperateEnum.Write).First();
-        if (point == null)
+        if (point is null)
         {
-            return new DataPointDto(false, null, "数据点不存在");
+            throw new BusinessException(HttpCode.FAILED_CODE, "数据点不存在");
         }
         return _manager.Write(point, value);
     }

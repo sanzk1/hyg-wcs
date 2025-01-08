@@ -2,12 +2,11 @@
 using dataPointsModule.Dal;
 using dataPointsModule.Managers;
 using domain.Pojo.protocol;
+using domain.Records;
 using domain.Result;
 using infrastructure.Attributes;
-using infrastructure.Db;
 using infrastructure.Exceptions;
 using infrastructure.Utils;
-using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Logging;
 using Yitter.IdGenerator;
 
@@ -47,32 +46,54 @@ public class ModbusDataBll : IModbusDataBll
         _modbusDataDal.Delete(ids);
     }
 
-    public Pager<ModbusDataPoint> Find()
+    public Pager<ModbusDataPoint> GetList(ModbusDataQuery query)
     {
-        throw new NotImplementedException();
+        return _modbusDataDal.pager(query);
     }
+
+    public ModbusDataPoint Get(long id)
+    {
+        return _modbusDataDal.SelectById(id);
+    }
+
 
     public DataPointDto ReadById(long id)
     {
         ModbusDataPoint m = _modbusDataDal.SelectById(id);
+        if (m is null)
+        {
+            throw new BusinessException(HttpCode.FAILED_CODE, "数据点不存在");
+        }
         return _manager.Read(m);
     }
 
     public DataPointDto ReadByName(string name)
     {
         ModbusDataPoint m = _modbusDataDal.SelectByName(name);
+        if (m is null)
+        {
+            throw new BusinessException(HttpCode.FAILED_CODE, "数据点不存在");
+        }
         return _manager.Read(m);
     }
 
     public DataPointDto WriteByName(string name, object value)
     {
         ModbusDataPoint m = _modbusDataDal.SelectByName(name);
+        if (m is null)
+        {
+            throw new BusinessException(HttpCode.FAILED_CODE, "数据点不存在");
+        }
         return _manager.Write(m, value);
     }
 
     public DataPointDto WriteById(long id, object value)
     {
         ModbusDataPoint m = _modbusDataDal.SelectById(id);
+        if (m is null)
+        {
+            throw new BusinessException(HttpCode.FAILED_CODE, "数据点不存在");
+        }
         return _manager.Write(m, value);
     }
     

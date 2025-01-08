@@ -1,10 +1,14 @@
 ﻿using domain.Pojo.protocol;
+using domain.Records;
+using infrastructure.Utils;
 
 namespace dataPointsModule.Dal;
 
 public interface IModbusDataDal
 {
 
+    Pager<ModbusDataPoint> pager(ModbusDataQuery query);
+    
     void Insert(ModbusDataPoint modbusDataPoint);
     
     ModbusDataPoint SelectByName(string name);

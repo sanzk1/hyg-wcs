@@ -18,8 +18,7 @@ namespace dataPointsModule.Managers;
 /// </summary>
 [Service(ServiceLifetime.Singleton)]
 public class OpcUaManager : ManagerAbstract<OpcUaDataPoint>, IOpcUaManager
-{
-    public string[] accessTypes = { "s", "i", "g" };
+{ public string[] accessTypes { get; } = { "s", "i", "g" };
     public readonly ConcurrentDictionary<string, ClientSessionChannel> ClientSessionChannels = new ();
     private readonly ILogger<OpcUaManager> logger;
     private object opcUaLock = new();

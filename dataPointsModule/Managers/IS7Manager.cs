@@ -5,7 +5,7 @@ namespace dataPointsModule.Managers;
 
 public interface IS7Manager
 {
-    
+  
     /// <summary>
     /// 单个数据点读取
     /// </summary>
