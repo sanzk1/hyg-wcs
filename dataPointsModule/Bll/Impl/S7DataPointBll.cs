@@ -21,14 +21,12 @@ namespace dataPointsModule.Bll.Impl;
 public class S7DataPointBll : IS7DataPointBll
 {
     private readonly ILogger<S7DataPointBll> _logger;
-    private readonly DbClientFactory _dbClientFactory;
-    private readonly IS7Manager _manager;
+    private readonly DbClientFactory _dbClientFactory = ServiceUtil.GetRequiredService<DbClientFactory>() ;
+    private readonly IS7Manager _manager  = ServiceUtil.GetRequiredService<IS7Manager>() ;
 
-    public S7DataPointBll(ILogger<S7DataPointBll> logger, DbClientFactory dbClientFactory, IS7Manager manager)
+    public S7DataPointBll(ILogger<S7DataPointBll> logger)
     {
         this._logger = logger;
-        this._dbClientFactory = dbClientFactory;
-        this._manager = manager;
     }
 
     private record Device(string ip, int port);

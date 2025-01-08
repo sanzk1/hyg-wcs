@@ -16,12 +16,11 @@ namespace dataPointsModule.Bll.Impl;
 public class OpcUaDataPointBll : IOpcUaDataPointBll
 {
     private readonly IOpcUaDataPointDal _opcUaDataPointDal;
-    private readonly IOpcUaManager _manager;
+    private readonly IOpcUaManager _manager = ServiceUtil.GetRequiredService<IOpcUaManager>() ;
 
-    public OpcUaDataPointBll(IOpcUaDataPointDal opcUaDataPointDal, IOpcUaManager manager)
+    public OpcUaDataPointBll(IOpcUaDataPointDal opcUaDataPointDal)
     {
         _opcUaDataPointDal = opcUaDataPointDal;
-        _manager = manager;
     }
 
     public void Initializes()

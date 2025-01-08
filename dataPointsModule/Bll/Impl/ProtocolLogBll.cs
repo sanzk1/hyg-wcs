@@ -13,12 +13,11 @@ namespace dataPointsModule.Bll.Impl;
 public class ProtocolLogBll : IProtocolLogBll
 {
     private readonly ILogger<ProtocolLogBll> _logger;
-    private readonly DbClientFactory _dbClientFactory;
+    private readonly DbClientFactory _dbClientFactory = ServiceUtil.GetRequiredService<DbClientFactory>() ;
 
-    public ProtocolLogBll(ILogger<ProtocolLogBll> logger, DbClientFactory dbClientFactory)
+    public ProtocolLogBll(ILogger<ProtocolLogBll> logger)
     {
         this._logger = logger;
-        this._dbClientFactory = dbClientFactory;
     }
 
     public void Save(ProtocolLog protocolLog)

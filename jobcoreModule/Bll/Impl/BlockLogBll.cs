@@ -1,6 +1,7 @@
 ﻿using domain.Pojo.jobCore;
 using infrastructure.Attributes;
 using infrastructure.Db;
+using infrastructure.Utils;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Logging;
 using Yitter.IdGenerator;
@@ -13,12 +14,11 @@ public class BlockLogBll : IBlockLogBll
 {
     
     private readonly ILogger<TaskInfoBll> _logger;
-    private readonly DbClientFactory _dbClientFactory;
+    private readonly DbClientFactory _dbClientFactory = ServiceUtil.GetRequiredService<DbClientFactory>() ;
 
-    public BlockLogBll(ILogger<TaskInfoBll> logger, DbClientFactory dbClientFactory)
+    public BlockLogBll(ILogger<TaskInfoBll> logger)
     {
         this._logger = logger;
-        this._dbClientFactory = dbClientFactory;
     }
     
     public void Save(BlockLog log)

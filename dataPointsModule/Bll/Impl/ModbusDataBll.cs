@@ -17,13 +17,12 @@ public class ModbusDataBll : IModbusDataBll
 {
     private readonly ILogger<ModbusDataBll> _logger;
     private readonly IModbusDataDal _modbusDataDal;
-    private readonly IModbusManager _manager;
+    private readonly IModbusManager _manager = ServiceUtil.GetRequiredService<IModbusManager>() ;
 
-    public ModbusDataBll(ILogger<ModbusDataBll> logger, IModbusDataDal modbusDataDal, IModbusManager manager)
+    public ModbusDataBll(ILogger<ModbusDataBll> logger, IModbusDataDal modbusDataDal)
     {
         this._logger = logger;
         this._modbusDataDal = modbusDataDal;
-        this._manager = manager;
     }
     
     public void Save(ModbusDataPoint modbusDataPoint)
