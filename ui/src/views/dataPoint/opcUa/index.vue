@@ -128,7 +128,7 @@ const edit = () =>{
 }
 const route = useRouter()
 const add = () =>{
-  route.push( '/dataPoint/s7/Edit'+ '0')
+  route.push( '/dataPoint/opcUa/Edit'+ '0')
 }
 const read = () =>{
 

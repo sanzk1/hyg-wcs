@@ -40,7 +40,6 @@ const disabled = computed(() => {
 const login = async () => {
 
     const data = await Login(toRaw(formState))
-
       message.success("登录成功！")
       authStore.setToken(data.data)
       await initUserAndPermissions()
