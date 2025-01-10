@@ -36,6 +36,7 @@ const search = (page) =>{
 
 const list = (query) => {
   GetOpcUaList(query).then(res=>{
+    console.log(res.data)
     if (res.code === 200){
       let result = res.data
       dataSource.value = result.rows
@@ -118,7 +119,7 @@ const editModal = ref(false)
 const showM = (name) => {
   let length = selectRow.value.length
   if (name === 'editModal' && length > 0){
-    route.push( '/dataPoint/s7/Edit'+ selectRow.value[0].id)
+    route.push( '/dataPoint/opcUa/Edit'+ selectRow.value[0].id)
   }
 
 }

@@ -31,7 +31,13 @@ export const WriteByIdOpcUa = (data)=>{
     return request({
         url: '/OpcUaDataPoint/writeById',
         method: 'post',
-        data: data
+        params: data
+    })
+}
+export const GetOpcUaDetails = (data) => {
+    return request({
+        url: '/OpcUaDataPoint/get/' + data,
+        method: 'get'
     })
 }
 

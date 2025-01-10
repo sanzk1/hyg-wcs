@@ -1,7 +1,12 @@
 <script setup>
 import {reactive, ref, onMounted, defineProps} from 'vue';
 import {useRouter} from "vue-router";
-import {AddS7, GetS7CpuType, GetS7DataType, GetS7Details, ReadS7, UpdateS7, WriteS7} from "@/api/dataPoint.js";
+import {
+  AddOrUpdateOpcUa, GetOpcUaDetails,
+  ReadByIdOpcUa,
+  WriteByIdOpcUa,
+
+} from "@/api/dataPoint.js";
 import {message} from "ant-design-vue";
 
 defineOptions({
@@ -41,44 +46,22 @@ const dataTypes = [
 onMounted(() => {
   if (props.id != undefined && props.id != 0 ){
     disabled.value = true
-   /* GetS7Details(props.id).then(res => {
+    GetOpcUaDetails(props.id).then(res => {
       let data = res.data
-
       point.id = data.id
       point.name = data.name
       point.category = data.category
-      point.ip = data.ip
-      point.port = data.port
-      point.cpuType = data.cpuType
-      point.rack = data.rack
-      point.slot = data.slot
-      point.db = data.db
-      point.startAddress = data.startAddress
+      point.endpoint = data.endpoint
+      point.namespaceIndex = data.namespaceIndex
+      point.identifier = data.identifier
+      point.accessType = data.accessType
       point.dataType = data.dataType
-      point.length = data.length
       point.operate = data.operate
       point.remark = data.remark
-    })*/
+    })
   }else {
     disabled.value = false
   }
-
-  GetS7DataType().then(res => {
-    if (res.code === 200){
-      res.data.forEach(item => {
-        varTypes.value.push({label: item, value: item})
-      })
-
-    }
-  })
-  GetS7CpuType().then(res => {
-    if (res.code === 200){
-      res.data.forEach(item => {
-        cpuTypes.value.push({label: item, value: item})
-      })
-
-    }
-  })
 
 })
 const route = useRouter()
@@ -89,7 +72,7 @@ const edit = () => {
 const save = () => {
   disabled.value = true
   if (point.id === undefined || point.id === 0 ){
-    AddS7(point).then(res => {
+    AddOrUpdateOpcUa(point).then(res => {
       if (res.code === 200){
         message.success("保存成功");
       }else {
@@ -97,7 +80,7 @@ const save = () => {
       }
     })
   }else {
-    UpdateS7(point).then(res => {
+    AddOrUpdateOpcUa(point).then(res => {
       if (res.code === 200){
         message.success("保存成功");
       }else {
@@ -110,12 +93,10 @@ const save = () => {
 const cancel = () => {
   route.go(-1)
 }
-const varTypes = ref([])
-const cpuTypes = ref([])
 
 const readData = () => {
   loadingR.value = true
-  ReadS7(point.id).then(res => {
+  ReadByIdOpcUa(point.id).then(res => {
     if (res.code === 200){
       valueR.value = res.data
     }
@@ -129,7 +110,7 @@ const valueR = ref({})
 const writeData = () => {
   loadingW.value = true
   let data = {id: point.id, value: valueW.value}
-  WriteS7(data).then(res => {
+  WriteByIdOpcUa(data).then(res => {
     if (res.code === 200){
       msgW.value = res.data.msg
       if (!res.data.state){
@@ -174,7 +155,7 @@ const Refresh = () => {
       </a-flex>
       <br/>
       <a-flex class="gutter-box"  vertical >
-        <span style="font-weight: bold;">IP</span>
+        <span style="font-weight: bold;">Endpoint</span>
         <a-input placeholder="请输入Endpoint" v-model:value="point.endpoint" :disabled="disabled"  />
       </a-flex>
       <br/>
