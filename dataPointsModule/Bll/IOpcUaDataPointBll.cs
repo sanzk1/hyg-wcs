@@ -15,6 +15,7 @@ public interface IOpcUaDataPointBll
     public DataPointDto ReadById(long id);
     public DataPointDto WriteByName(string name, object value);
     public DataPointDto WriteById(long id, object value);
+    public OpcUaDataPoint getById(long id);
     
     public void DeleteBatch(List<long> ids);
 

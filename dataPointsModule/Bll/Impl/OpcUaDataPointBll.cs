@@ -39,10 +39,10 @@ public class OpcUaDataPointBll : IOpcUaDataPointBll
     public void Save(OpcUaDataPoint point)
     {
         VerifyOpcUaDataPoint(point);
-        if (point.id != 0)
+        if (point.id == 0)
         {
             OpcUaDataPoint? pointNew = _opcUaDataPointDal.SelectByNameAndOperate(point.name, point.operate);
-            if (pointNew != null)
+            if (pointNew is not null)
             {
                 throw new BusinessException("OpcUaDataPoint already exists");
             }
@@ -51,14 +51,15 @@ public class OpcUaDataPointBll : IOpcUaDataPointBll
         else
         {
             OpcUaDataPoint? point1 = _opcUaDataPointDal.SelectByNameAndOperate(point.name, point.operate);
-            if (point1 != null && point1.id != point.id)
-            {
-                throw new BusinessException("OpcUaDataPoint already exists");
-            }
             OpcUaDataPoint? point2 = _opcUaDataPointDal.SelectById(point.id);
-            if (point2 != null)
+            if (point2 is null)
             {
                 throw new BusinessException("OpcUaDataPoint is not exists");
+                
+            }
+            if (point1 is not null && point1.id != point.id  )
+            {
+                throw new BusinessException("OpcUaDataPoint already exists");
             }
             _opcUaDataPointDal.Update(point);
         }
@@ -123,6 +124,11 @@ public class OpcUaDataPointBll : IOpcUaDataPointBll
             throw new BusinessException("数据点不存在");
         }
         return _manager.Write(point, value);
+    }
+
+    public OpcUaDataPoint getById(long id)
+    {
+        return _opcUaDataPointDal.SelectById(id);
     }
 
     [TransactionScope(TransactionScopeOption.Required)]

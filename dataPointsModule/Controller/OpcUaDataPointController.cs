@@ -49,6 +49,11 @@ public class OpcUaDataPointController  : ControllerBase
     {
         return ApiResult.succeed(_opcUaDataPointBll.ReadById(id));
     }
+    [HttpGet("{id}")]
+    public ApiResult get(long id)
+    {
+        return ApiResult.succeed(_opcUaDataPointBll.getById(id));
+    }
 
     [HttpPost]
     public ApiResult writeById(long id, string value)

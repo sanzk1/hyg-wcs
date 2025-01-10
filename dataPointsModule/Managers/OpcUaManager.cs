@@ -111,7 +111,16 @@ public class OpcUaManager : ManagerAbstract<OpcUaDataPoint>, IOpcUaManager
 
     private string GetIp(string endpoint)
     {
-        return endpoint.Split(":")[1].Replace("//", "");
+        try
+        {
+            return endpoint.Split(":")[1].Replace("//", "");
+        }
+        catch (Exception ex)
+        {
+            logger.LogError($"非法opcua endpoint， 原因：{ex.Message}");
+        }
+
+        return string.Empty;
     }
 
     private ApplicationDescription GetApplicationDescription()
