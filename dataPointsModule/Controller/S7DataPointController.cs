@@ -49,8 +49,7 @@ public class S7DataPointController: ControllerBase
     [HttpPost]
     public ApiResult importExcel( IFormFile file)
     {
-        var rows = MiniExcel.Query<S7DataPoint>(file.OpenReadStream());
-        _s7DataPointBll.BatchSave(rows.ToList());
+        _s7DataPointBll.importExcel(file);
         return ApiResult.succeed();
     }
 
@@ -129,6 +128,12 @@ public class S7DataPointController: ControllerBase
     public ApiResult getVarType()
     {
         return ApiResult.succeed(Enum.GetNames(typeof(VarType)));
+    }
+
+    [HttpPost]
+    public IActionResult export([FromBody] S7DataPointQuery query)
+    {
+        return _s7DataPointBll.ExportExcel(query);
     }
     
     

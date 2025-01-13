@@ -1,4 +1,5 @@
-﻿using api.Common.DTO;
+﻿
+using domain.Dto;
 using domain.Pojo.protocol;
 
 namespace dataPointsModule.Managers;

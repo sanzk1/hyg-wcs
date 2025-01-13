@@ -1,8 +1,8 @@
 ﻿using System.Collections.Concurrent;
 using System.Net;
-using api.Common.DTO;
 using dataPointsModule.Attributes;
 using dataPointsModule.Managers.Base;
+using domain.Dto;
 using domain.Enums;
 using domain.Pojo.protocol;
 using infrastructure.Attributes;

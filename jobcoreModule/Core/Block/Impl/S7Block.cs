@@ -1,6 +1,7 @@
-﻿using api.Common.DTO;
+﻿
 using dataPointsModule.Bll;
 using dataPointsModule.Managers;
+using domain.Dto;
 using domain.Pojo.jobCore;
 using infrastructure.Attributes;
 using infrastructure.Exceptions;

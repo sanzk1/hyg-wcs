@@ -1,5 +1,5 @@
 ﻿using adminModule.Bll;
-using api.Common.DTO;
+
 using domain.Result;
 using infrastructure.Attributes;
 using infrastructure.Utils;
@@ -12,6 +12,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using domain.Dto;
 
 namespace adminModule.Controllers
 {

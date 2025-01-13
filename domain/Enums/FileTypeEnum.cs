@@ -15,4 +15,8 @@ public enum FileTypeEnum
     /// 视频
     /// </summary>
     Movie,
+    /// <summary>
+    /// excel
+    /// </summary>
+    Excel,
 }

@@ -1,4 +1,4 @@
-﻿using api.Common.DTO;
+﻿
 using domain.Records;
 using domain.Vo;
 using infrastructure.Utils;
@@ -7,6 +7,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using domain.Dto;
 
 namespace adminModule.Bll
 {

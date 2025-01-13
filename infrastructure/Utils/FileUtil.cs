@@ -11,6 +11,7 @@ public class FileUtil
     static string[] imgs = { ".jpg", ".jpeg", ".png", ".xbm", ".tif", ".pjp", ".svgz", ".jpg",
         ".jpeg", ".ico", ".tiff", ".gif", ".svg", ".jfif", ".webp", ".png", ".bmp", ".pjpeg", ".avif" };
     static string[] txts = { ".txt", ".text",  };
+    static string[] excels = { ".xls", ".xlsx",  };
     
     /// <summary>
     /// 创建文件夹路径默认 FileUpload文件夹路径下
@@ -46,6 +47,14 @@ public class FileUtil
                 return FileTypeEnum.Txt;
             }
         }
+        foreach (var excel in excels)
+        {
+            if (fileNameEx.Equals(excel))
+            {
+                return FileTypeEnum.Excel;
+            }
+        }
+        
         return FileTypeEnum.Other;
     }
     /// <summary>

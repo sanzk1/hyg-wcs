@@ -1,7 +1,7 @@
 
 using System.Transactions;
 using adminModule.Dal;
-using api.Common.DTO;
+using domain.Dto;
 using domain.Pojo.sys;
 using infrastructure.Attributes;
 using Yitter.IdGenerator;

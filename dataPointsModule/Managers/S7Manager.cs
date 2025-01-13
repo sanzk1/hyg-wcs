@@ -1,9 +1,8 @@
 ﻿using System.Collections.Concurrent;
 using System.Text;
-using api.Common.DTO;
-using AspectCore.DynamicProxy;
 using dataPointsModule.Attributes;
 using dataPointsModule.Managers.Base;
+using domain.Dto;
 using domain.Enums;
 using domain.Pojo.protocol;
 using infrastructure.Attributes;

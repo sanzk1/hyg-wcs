@@ -1,7 +1,6 @@
-﻿using System.Text;
-using api.Common.DTO;
-using dataPointsModule.Attributes;
+﻿
 using dataPointsModule.Managers;
+using domain.Dto;
 using domain.Enums;
 using domain.Pojo.protocol;
 using domain.Records;
@@ -10,8 +9,11 @@ using infrastructure.Attributes;
 using infrastructure.Db;
 using infrastructure.Exceptions;
 using infrastructure.Utils;
+using Microsoft.AspNetCore.Http;
+using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Logging;
+using MiniExcelLibs;
 using S7.Net;
 using SqlSugar;
 
@@ -99,7 +101,7 @@ public class S7DataPointBll : IS7DataPointBll
         {
             throw new BusinessException(HttpCode.FAILED_CODE, "数据点不存在");
         }
-        db.Updateable(point);
+        db.Updateable(point).ExecuteCommand();
     }
 
     public S7DataPoint GetById(long id)
@@ -126,7 +128,7 @@ public class S7DataPointBll : IS7DataPointBll
         catch (Exception ex)
         {
             db.Ado.RollbackTran();
-            throw new BusinessException(500, ex.Message);
+            throw new BusinessException(500, "批量保存数据点失败" + ex.Message);
         }
     }
 
@@ -153,7 +155,75 @@ public class S7DataPointBll : IS7DataPointBll
         }
         return _manager.Write(point, value);
     }
-    
-    
-    
+
+    public FileStreamResult ExportExcel(S7DataPointQuery query)
+    {
+        try
+        {
+            var exp = Expressionable.Create<S7DataPoint>();
+            exp.AndIF(!string.IsNullOrEmpty(query.name), x => x.name.Contains(query.name));
+            exp.AndIF(!string.IsNullOrEmpty(query.name), x => x.category.Contains(query.category));
+            exp.AndIF( query.startAddress != null, x => x.startAddress == query.startAddress);
+            using var db = _dbClientFactory.GetSqlSugarClient();
+            List<S7PointDto> list = db.Queryable<S7DataPoint>()
+                .Where(exp.ToExpression())
+                .Select(item => new S7PointDto()
+                {
+                    name = item.name,
+                    category = item.category,
+                    ip = item.ip,
+                    cpuType = item.cpuType,
+                    rack = item.rack,
+                    slot = item.slot,
+                    db = item.db,
+                    startAddress = item.startAddress,
+                    dataType = item.dataType,
+                    length = item.length,
+                    remark = item.remark,
+                    operate = item.operate,
+                })
+                .ToList();
+            var memoryStream = new MemoryStream();
+            memoryStream.SaveAs(list);
+            memoryStream.Seek(0, SeekOrigin.Begin);
+            return new FileStreamResult(memoryStream, "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet")
+            {
+                FileDownloadName = "S7数据点.xlsx"
+            };
+        }
+        catch (Exception ex)
+        {
+            _logger.LogError($"s7数据点导出Excel失败, 原因：{ex.Message}");
+            throw new BusinessException("s7数据点导出Excel失败");
+        }
+    }
+
+    public void importExcel(IFormFile file)
+    {
+        FileTypeEnum fileType = FileUtil.GetIFormFileType(Path.GetExtension(file.FileName));
+        if (FileTypeEnum.Excel != fileType)
+        {
+            throw new BusinessException("文件类型异常，请选择excel文件");
+        }
+
+        List<S7DataPoint> list = new();
+        var rows = MiniExcel.Query<S7PointDto>(file.OpenReadStream());
+        foreach (var dto in rows.ToList())
+        {
+            S7DataPoint point = new();
+            point.name = dto.name;
+            point.category = dto.category;
+            point.ip = dto.ip;
+            point.cpuType = dto.cpuType;
+            point.rack = dto.rack;
+            point.slot = dto.slot;
+            point.dataType = dto.dataType;
+            point.db = dto.db;
+            point.length = dto.length;
+            point.remark = dto.remark;
+            point.operate = dto.operate;
+            list.Add(point);
+        }
+        BatchSave(list);
+    }
 }

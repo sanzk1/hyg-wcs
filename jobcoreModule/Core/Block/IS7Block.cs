@@ -1,4 +1,5 @@
-﻿using api.Common.DTO;
+﻿
+using domain.Dto;
 
 namespace jobcoreModule.Core.Block;
 

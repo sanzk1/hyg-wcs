@@ -1,5 +1,4 @@
-﻿namespace api.Common.DTO;
-
+﻿namespace domain.Dto;
 public class DataPointDto
 {
     public bool state { set; get; } = false;

@@ -1,7 +1,10 @@
-﻿using api.Common.DTO;
+﻿
+using domain.Dto;
 using domain.Pojo.protocol;
 using domain.Records;
 using infrastructure.Utils;
+using Microsoft.AspNetCore.Http;
+using Microsoft.AspNetCore.Mvc;
 
 namespace dataPointsModule.Bll;
 
@@ -43,5 +46,9 @@ public interface IS7DataPointBll
     /// <param name="value"></param>
     /// <returns></returns>
     public DataPointDto WriteByName(string name, object value);
+    
+    public FileStreamResult ExportExcel(S7DataPointQuery query);
+
+    public void importExcel(IFormFile file);
 
 }

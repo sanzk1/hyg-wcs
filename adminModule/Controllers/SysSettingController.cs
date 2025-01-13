@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using adminModule.Bll;
-using api.Common.DTO;
+using domain.Dto;
 using domain.Pojo.sys;
 using domain.Result;
 using Microsoft.AspNetCore.Mvc;

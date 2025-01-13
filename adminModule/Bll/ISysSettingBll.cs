@@ -1,8 +1,5 @@
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
-using api.Common.DTO;
+
+using domain.Dto;
 using domain.Pojo.sys;
 
 namespace adminModule.Bll

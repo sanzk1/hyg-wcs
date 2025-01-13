@@ -1,5 +1,4 @@
 ﻿using adminModule.Bll;
-using api.Common.DTO;
 using domain.Result;
 using infrastructure.Utils;
 using Microsoft.AspNetCore.Authorization;
@@ -12,6 +11,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using domain.Dto;
 using infrastructure.Attributes;
 
 namespace adminModule.Controllers

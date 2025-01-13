@@ -86,9 +86,9 @@ function handleResizeColumn(w, col) {
 }
 const rowSelection = {
   onChange: (selectedRowKeys, selectedRows) => {
-    console.log(`selectedRowKeys: ${selectedRowKeys}`, 'selectedRows: ', selectedRows);
+    // console.log(`selectedRowKeys: ${selectedRowKeys}`, 'selectedRows: ', selectedRows);
     selectRow.value = selectedRows
-    console.log(selectRow.value.length)
+    // console.log(selectRow.value.length)
   },
   getCheckboxProps: record => ({
     disabled: record.name === 'Disabled User',
@@ -101,7 +101,7 @@ const handlePageChange = (page, pageSize) => {
 }
 
 const handleMenuClick = e => {
-  console.log('click', e);
+  // console.log('click', e);
 };
 
 
@@ -112,7 +112,6 @@ const del = () =>{
   }
   let arr = selectRow.value.map( item => item.id);
   DelS7(arr).then(res => {
-    console.log(res)
     if (res.code === 200){
       message.success("删除成功！")
       search(null)
