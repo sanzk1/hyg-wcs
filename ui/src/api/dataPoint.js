@@ -102,6 +102,21 @@ export const WriteS7 = (data) => {
         params: data
     })
 }
+export const S7Import = (data) => {
+    return request({
+        url: '/S7DataPoint/importExcel/' ,
+        method: 'post',
+        params: data
+    })
+}
+export const S7Export = (data) => {
+    return request({
+        url: '/S7DataPoint/export/' ,
+        method: 'post',
+        data: data
+    })
+}
+
 export const GetProtocolList = (data) => {
     return request({
         url: '/ProtocolLog/getList/' ,

@@ -1,6 +1,6 @@
 <script setup>
 import {reactive, ref, onMounted} from 'vue';
-import {DelS7, GetS7List} from "@/api/dataPoint.js";
+import {DelS7, GetS7List, S7Export} from "@/api/dataPoint.js";
 import {DeleteOutlined} from "@ant-design/icons-vue";
 import {message} from "ant-design-vue";
 import {useRouter} from "vue-router";
@@ -145,6 +145,11 @@ const importExcel = () =>{
 
 }
 const exportExcel = () =>{
+  let query = {name:name.value, category: category.value, ip: ip.value, startAddress: startAddress.value,
+    pageNum: paginationer.current, pageSize: paginationer.pageSize }
+  S7Export(query).then(res =>{
+    console.log(res.data)
+  })
 
 }
 
