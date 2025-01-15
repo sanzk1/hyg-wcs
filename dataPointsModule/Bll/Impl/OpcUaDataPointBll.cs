@@ -9,7 +9,11 @@ using domain.Records;
 using infrastructure.Attributes;
 using infrastructure.Exceptions;
 using infrastructure.Utils;
+using Microsoft.AspNetCore.Http;
+using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.DependencyInjection;
+using Microsoft.Extensions.Logging;
+using MiniExcelLibs;
 
 namespace dataPointsModule.Bll.Impl;
 
@@ -17,11 +21,13 @@ namespace dataPointsModule.Bll.Impl;
 public class OpcUaDataPointBll : IOpcUaDataPointBll
 {
     private readonly IOpcUaDataPointDal _opcUaDataPointDal;
+    private readonly ILogger<IOpcUaDataPointBll> _logger;
     private readonly IOpcUaManager _manager = ServiceUtil.GetRequiredService<IOpcUaManager>() ;
 
-    public OpcUaDataPointBll(IOpcUaDataPointDal opcUaDataPointDal)
+    public OpcUaDataPointBll(IOpcUaDataPointDal opcUaDataPointDal, ILogger<IOpcUaDataPointBll> logger)
     {
         _opcUaDataPointDal = opcUaDataPointDal;
+        this._logger = logger;
     }
 
     public void Initializes()
@@ -140,6 +146,54 @@ public class OpcUaDataPointBll : IOpcUaDataPointBll
             return;
         }
         _opcUaDataPointDal.DeleteBatchById(ids);
+    }
+
+    public void ImportExcel(IFormFile file)
+    {
+        FileTypeEnum fileType = FileUtil.GetIFormFileType(Path.GetExtension(file.FileName));
+        if (FileTypeEnum.Excel != fileType)
+        {
+            throw new BusinessException("文件类型异常，请选择excel文件");
+        }
+
+        List<OpcUaDataPoint> list = new();
+        var rows = MiniExcel.Query<OpcUaPointDto>(file.OpenReadStream());
+        foreach (var dto in rows.ToList())
+        {
+            OpcUaDataPoint point = new();
+            point.endpoint = dto.endpoint;
+            point.name = dto.name;
+            point.dataType = dto.dataType;
+            point.accessType = dto.accessType;
+            point.operate = dto.operate;
+            point.category = dto.category;
+            point.remark = dto.remark;
+            point.identifier = dto.identifier;
+            
+            list.Add(point);
+        }
+        _opcUaDataPointDal.InsertBacth(list);
+    }
+
+    public FileStreamResult ExportExcel(OpcUaDataPointQuery query)
+    {
+        try
+        {
+            List<OpcUaPointDto> list = _opcUaDataPointDal.SelectAll(query);
+            var memoryStream = new MemoryStream();
+            memoryStream.SaveAs(list);
+            memoryStream.Seek(0, SeekOrigin.Begin);
+            return new FileStreamResult(memoryStream, "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet")
+            {
+                FileDownloadName = "OpcUa数据点.xlsx"
+            };
+        }
+        catch (Exception ex)
+        {
+            _logger.LogError($"OpcUa数据点导出Excel失败, 原因：{ex.Message}");
+            throw new BusinessException("sOpcUa数据点导出Excel失败");
+        }
+
     }
 
     public Pager<OpcUaDataPoint> GetList(OpcUaDataPointQuery query)

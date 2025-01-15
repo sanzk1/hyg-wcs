@@ -3,6 +3,7 @@ using domain.Pojo.protocol;
 using domain.Records;
 using domain.Result;
 using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
 
@@ -59,6 +60,18 @@ public class OpcUaDataPointController  : ControllerBase
     public ApiResult writeById(long id, string value)
     {
         return ApiResult.succeed(_opcUaDataPointBll.WriteById(id, value));
+    }
+
+    [HttpPost]
+    public ApiResult importExcel(IFormFile file)
+    {
+        _opcUaDataPointBll.ImportExcel(file);
+        return ApiResult.succeed();
+    }
+    [HttpPost]
+    public IActionResult exportExcel([FromBody] OpcUaDataPointQuery query)
+    {
+        return  _opcUaDataPointBll.ExportExcel(query);
     }
     
     

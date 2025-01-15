@@ -1,8 +1,10 @@
+using domain.Dto;
 using domain.Enums;
 using domain.Pojo.protocol;
 using domain.Records;
 using infrastructure.Attributes;
 using infrastructure.Db;
+using infrastructure.Exceptions;
 using infrastructure.Utils;
 using Microsoft.Extensions.DependencyInjection;
 using SqlSugar;
@@ -76,5 +78,48 @@ public class OpcUaDataPointDal : IOpcUaDataPointDal
         List<string> list = db.Queryable<OpcUaDataPoint>().Select<string>(o => o.endpoint).Distinct().ToList();
         return list;
         
+    }
+
+    public void InsertBacth(List<OpcUaDataPoint> list)
+    {
+        using var db = dbClientFactory.GetSqlSugarClient();
+        db.Ado.BeginTran();
+        try
+        {
+            db.Insertable(list).ExecuteCommand();
+
+            db.Ado.CommitTran();
+        }
+        catch (Exception ex)
+        {
+            db.Ado.RollbackTran();
+            throw new BusinessException($"batch insert failed, reason:{ex.Message}");
+        }
+        
+    }
+
+    public List<OpcUaPointDto> SelectAll(OpcUaDataPointQuery query)
+    {
+        using var db = dbClientFactory.GetSqlSugarClient();
+        var exp = Expressionable.Create<OpcUaDataPoint>();
+        exp.AndIF(!string.IsNullOrEmpty(query.name), e => e.name.Contains(query.name));
+        exp.AndIF(!string.IsNullOrEmpty(query.category), e => e.category.Contains(query.category));
+        exp.AndIF(!string.IsNullOrEmpty(query.identifier), e => e.identifier.Contains(query.identifier));
+        exp.AndIF(!string.IsNullOrEmpty(query.ip), e => e.endpoint.Contains(query.ip));
+
+       return db.Queryable<OpcUaDataPoint>().Where(exp.ToExpression())
+           .Select<OpcUaPointDto>( item => new OpcUaPointDto()
+           {
+               name = item.name,
+               category = item.category,
+               accessType = item.accessType,
+               dataType = item.dataType,
+               endpoint = item.endpoint,
+               identifier = item.identifier,
+               namespaceIndex = item.namespaceIndex,
+               remark = item.remark,
+               operate = item.operate,
+           })
+            .ToList();
     }
 }
