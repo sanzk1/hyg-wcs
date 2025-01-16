@@ -38,13 +38,13 @@ public class S7DataPointController: ControllerBase
         return ApiResult.succeed();
     }
 
-    [HttpGet]
+    /*[HttpGet]
     public ApiResult exportExcel()
     {
         var path = Path.Combine("D:\\work", $"{Guid.NewGuid()}.xlsx");
         MiniExcel.SaveAs(path, _s7DataPointBll.GetAll());
         return ApiResult.succeed();
-    }
+    }*/
 
     [HttpPost]
     public ApiResult importExcel( IFormFile file)

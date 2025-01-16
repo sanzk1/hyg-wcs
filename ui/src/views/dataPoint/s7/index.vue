@@ -1,9 +1,10 @@
 <script setup>
 import {reactive, ref, onMounted} from 'vue';
-import {DelS7, GetS7List, S7Export} from "@/api/dataPoint.js";
+import {DelS7, GetS7List, S7Export, S7Import} from "@/api/dataPoint.js";
 import {DeleteOutlined} from "@ant-design/icons-vue";
 import {message} from "ant-design-vue";
 import {useRouter} from "vue-router";
+import fileDownload from "js-file-download";
 
 defineOptions({
   name : 's7'
@@ -135,32 +136,31 @@ const route = useRouter()
 const add = () =>{
   route.push( '/dataPoint/s7/Edit'+ '0')
 }
-const read = () =>{
 
-}
-const write = () =>{
-
-}
 const importExcel = () =>{
+
+  const formData = new FormData();
+  formData.append('file', e.file);
+  S7Import(formData).then((res) => {
+    if (res.code === 200) {
+      message.success("保存成功")
+    }
+    else
+      message.success(res.msg)
+  })
+  // S7Import
 
 }
 const exportExcel = () =>{
   let query = {name:name.value, category: category.value, ip: ip.value, startAddress: startAddress.value,
     pageNum: paginationer.current, pageSize: paginationer.pageSize }
   S7Export(query).then(res =>{
-    console.log(res.data)
+    fileDownload(res, "s7数据点.xlsx");
   })
 
 }
 
-const layout = {
-  labelCol: {
-    span: 8,
-  },
-  wrapperCol: {
-    span: 16,
-  },
-};
+
 </script>
 
 <template>
@@ -219,6 +219,15 @@ const layout = {
     <a-button type="primary"  @click="write"  style="margin: 10px;">
       写入
     </a-button>-->
+    <a-upload
+        :customRequest="importExcel"
+        list-type="text"
+    >
+      <a-button>
+        <upload-outlined></upload-outlined>
+        Upload
+      </a-button>
+    </a-upload>
     <a-button type="primary"  @click="importExcel"  style="margin: 10px;">
       导入
     </a-button>

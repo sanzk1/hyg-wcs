@@ -113,7 +113,8 @@ export const S7Export = (data) => {
     return request({
         url: '/S7DataPoint/export/' ,
         method: 'post',
-        data: data
+        data: data,
+        responseType:'blob'
     })
 }
 
