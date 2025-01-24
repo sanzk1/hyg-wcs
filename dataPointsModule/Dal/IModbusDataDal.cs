@@ -1,4 +1,5 @@
-﻿using domain.Pojo.protocol;
+﻿using domain.Dto;
+using domain.Pojo.protocol;
 using domain.Records;
 using infrastructure.Utils;
 
@@ -16,6 +17,10 @@ public interface IModbusDataDal
     void Delete(List<long> ids);
 
     ModbusDataPoint SelectById(long id);
-    
+
+    void BatchInsert(List<ModbusDataPoint> points);
+
+    List<ModbusPointDto> SelectList(ModbusDataQuery query);
+
 
 }

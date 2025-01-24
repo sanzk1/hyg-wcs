@@ -3,6 +3,7 @@ using domain.Pojo.protocol;
 using domain.Records;
 using domain.Result;
 using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 
 namespace dataPointsModule.Controller;
@@ -56,6 +57,18 @@ public class ModbusDataController : ControllerBase
     public ApiResult get([FromRoute] long id)
     {
         return ApiResult.succeed(_modbusDataBll.Get(id));
+    }
+    
+    [HttpPost]
+    public FileResult export([FromBody] ModbusDataQuery query)
+    {
+        return _modbusDataBll.ExportExcel(query);
+    }
+    [HttpPost]
+    public ApiResult import(IFormFile file)
+    {
+        _modbusDataBll.ImportExcel(file);
+        return ApiResult.succeed();
     }
     
     

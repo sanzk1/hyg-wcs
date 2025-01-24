@@ -2,13 +2,17 @@
 using dataPointsModule.Dal;
 using dataPointsModule.Managers;
 using domain.Dto;
+using domain.Enums;
 using domain.Pojo.protocol;
 using domain.Records;
 using domain.Result;
 using infrastructure.Attributes;
 using infrastructure.Exceptions;
 using infrastructure.Utils;
+using Microsoft.AspNetCore.Http;
+using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
+using MiniExcelLibs;
 using Yitter.IdGenerator;
 
 namespace dataPointsModule.Bll.Impl;
@@ -96,5 +100,45 @@ public class ModbusDataBll : IModbusDataBll
         }
         return _manager.Write(m, value);
     }
-    
+
+    public FileResult ExportExcel(ModbusDataQuery query)
+    {
+        var memoryStream = new MemoryStream();
+        memoryStream.SaveAs(_modbusDataDal.SelectList(query));
+        memoryStream.Seek(0, SeekOrigin.Begin);
+        return new FileStreamResult(memoryStream, "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet")
+        {
+            FileDownloadName = "Modbus数据点.xlsx"
+        };
+    }
+
+    public void ImportExcel(IFormFile file)
+    {
+        FileTypeEnum fileType = FileUtil.GetIFormFileType(Path.GetExtension(file.FileName));
+        if (FileTypeEnum.Excel != fileType)
+        {
+            throw new BusinessException("文件类型异常，请选择excel文件");
+        }
+
+        List<ModbusDataPoint> list = new();
+        var rows = MiniExcel.Query<ModbusPointDto>(file.OpenReadStream());
+        
+        list.ForEach(item =>
+        {
+            ModbusDataPoint modbusDataPoint = new();
+            modbusDataPoint.name = item.name;
+            modbusDataPoint.category = item.category;
+            modbusDataPoint.ip = item.ip;
+            modbusDataPoint.port = item.port;
+            modbusDataPoint.dataType = item.dataType;
+            modbusDataPoint.startAddress = item.startAddress;
+            modbusDataPoint.stationNo = item.stationNo;
+            modbusDataPoint.length = item.length;
+            modbusDataPoint.readOnly = item.readOnly;
+            modbusDataPoint.format = item.format;
+            modbusDataPoint.remark = item.remark;
+            list.Add(item);
+        });
+        _modbusDataDal.BatchInsert(list);
+    }
 }

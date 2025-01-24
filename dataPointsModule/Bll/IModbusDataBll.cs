@@ -3,6 +3,8 @@ using domain.Dto;
 using domain.Pojo.protocol;
 using domain.Records;
 using infrastructure.Utils;
+using Microsoft.AspNetCore.Http;
+using Microsoft.AspNetCore.Mvc;
 
 namespace dataPointsModule.Bll;
 
@@ -30,6 +32,11 @@ public interface IModbusDataBll
     public DataPointDto ReadByName(string name);
     public DataPointDto WriteByName(string name, object value);
     public DataPointDto WriteById(long id, object value);
+
+    public FileResult ExportExcel(ModbusDataQuery query);
+
+    public void ImportExcel(IFormFile file);
+    
 
 
 }

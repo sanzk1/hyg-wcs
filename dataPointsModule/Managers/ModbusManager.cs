@@ -16,7 +16,7 @@ namespace dataPointsModule.Managers;
 /// <summary>
 /// Modbus长连接管理
 /// </summary>
-[Component(ServiceLifetime.Singleton)]
+[Service(ServiceLifetime.Singleton)]
 public class ModbusManager : ManagerAbstract<ModbusDataPoint>, IModbusManager
 {
     public readonly ConcurrentDictionary<string, ModbusTcpClient> ModbusOnline = new();

@@ -29,29 +29,22 @@ INSERT INTO public.sys_menu (id,parent_id,title,"type",icon,route,keep_alive,"ke
 	 (587129249612165,585500219978117,'清空调度日志',3,'','','','','','monitor:quartz:Log:clear',1,0,0,'',10,'2024-09-05 11:35:03.976017'),
 	 (577685783937413,575129862402437,'修改用户',3,'','','','','','sys:user:update',1,1,0,'',99,'2024-08-09 19:09:30.364694'),
 	 (585500219978117,585074955129221,'调度日志',2,'ControlOutlined','/quartz/log','quartzLog','','/src/views/admin/quartz/logList.vue','monitor:quartz:Log:list',1,0,0,'',10,'2024-08-31 21:06:31.663643'),
-	 (587128431866245,585074955129221,'删除计划',3,'DollarCircleOutlined','','','','','monitor:quartz:del',1,0,0,'',10,'2024-09-05 11:31:44.331686');
-
-INSERT INTO public.sys_menu
-(id, parent_id, title, "type", icon, route, keep_alive, "key", "path", pem, "enable", "show", target, query, "order", created_time)
-VALUES(589689102934405, 589671762661765, '删除其他系统日志', 3, '', '', '', '', '', 'om:othersyslog:del', 1, 1, 0, '', 10, '2024-09-12 17:11:08.166');
-INSERT INTO public.sys_menu
-(id, parent_id, title, "type", icon, route, keep_alive, "key", "path", pem, "enable", "show", target, query, "order", created_time)
-VALUES(589339000910213, 0, '系统运维', 1, 'RobotOutlined', '', '', '', '', 'sys:om', 1, 1, 0, '', 10, '2024-09-11 17:26:34.039');
-INSERT INTO public.sys_menu
-(id, parent_id, title, "type", icon, route, keep_alive, "key", "path", pem, "enable", "show", target, query, "order", created_time)
-VALUES(589647154471301, 589574326399365, '新增其他系统', 3, '', '', '', '', '', 'om:othersys:add', 1, 1, 0, '', 10, '2024-09-12 14:20:26.842');
-INSERT INTO public.sys_menu
-(id, parent_id, title, "type", icon, route, keep_alive, "key", "path", pem, "enable", "show", target, query, "order", created_time)
-VALUES(589647330173318, 589574326399365, '删除其他系统', 3, '', '', '', '', '', 'om:othersys:del', 1, 1, 0, '', 10, '2024-09-12 14:21:09.738');
-INSERT INTO public.sys_menu
-(id, parent_id, title, "type", icon, route, keep_alive, "key", "path", pem, "enable", "show", target, query, "order", created_time)
-VALUES(589647456719238, 589574326399365, '删除其他系统', 3, '', '', '', '', '', 'om:othersys:update', 1, 1, 0, '', 1, '2024-09-12 14:21:40.633');
-INSERT INTO public.sys_menu
-(id, parent_id, title, "type", icon, route, keep_alive, "key", "path", pem, "enable", "show", target, query, "order", created_time)
-VALUES(589647658971526, 589574326399365, '刷新密钥', 3, '', '', '', '', '', 'om:othersys:buildappkey', 1, 1, 0, '', 10, '2024-09-12 14:22:30.011');
-INSERT INTO public.sys_menu
-(id, parent_id, title, "type", icon, route, keep_alive, "key", "path", pem, "enable", "show", target, query, "order", created_time)
-VALUES(589574326399365, 589339000910213, '其他系统管理', 2, 'ClusterOutlined', '/om/othersys/list', 'otherSysInfo', '', '/src/views/sysom/othersys/sysinfo/index.vue', 'om:othersys:list', 1, 1, 0, '', 10, '2024-09-12 09:24:06.551');
-INSERT INTO public.sys_menu
-(id, parent_id, title, "type", icon, route, keep_alive, "key", "path", pem, "enable", "show", target, query, "order", created_time)
-VALUES(589671762661765, 589339000910213, '其他系统日志', 2, 'HistoryOutlined', '/sysom/othersyslog/list', 'othersyslog', '', '/src/views/sysom/othersys/log/index.vue', 'om:othersyslog:list', 1, 1, 0, '', 3, '2024-09-12 16:00:34.701');
+	 (587128431866245,585074955129221,'删除计划',3,'DollarCircleOutlined','','','','','monitor:quartz:del',1,0,0,'',10,'2024-09-05 11:31:44.331686'),
+	 (589689102934405,589671762661765,'删除其他系统日志',3,'','','','','','om:othersyslog:del',1,1,0,'',10,'2024-09-12 17:11:08.166');
+INSERT INTO public.sys_menu (id,parent_id,title,"type",icon,route,keep_alive,"key","path",pem,"enable","show",target,query,"order",created_time) VALUES
+	 (589339000910213,0,'系统运维',1,'RobotOutlined','','','','','sys:om',1,1,0,'',10,'2024-09-11 17:26:34.039'),
+	 (589647154471301,589574326399365,'新增其他系统',3,'','','','','','om:othersys:add',1,1,0,'',10,'2024-09-12 14:20:26.842'),
+	 (589647330173318,589574326399365,'删除其他系统',3,'','','','','','om:othersys:del',1,1,0,'',10,'2024-09-12 14:21:09.738'),
+	 (589647456719238,589574326399365,'删除其他系统',3,'','','','','','om:othersys:update',1,1,0,'',1,'2024-09-12 14:21:40.633'),
+	 (589647658971526,589574326399365,'刷新密钥',3,'','','','','','om:othersys:buildappkey',1,1,0,'',10,'2024-09-12 14:22:30.011'),
+	 (589574326399365,589339000910213,'其他系统管理',2,'ClusterOutlined','/om/othersys/list','otherSysInfo','','/src/views/sysom/othersys/sysinfo/index.vue','om:othersys:list',1,1,0,'',10,'2024-09-12 09:24:06.551'),
+	 (589671762661765,589339000910213,'其他系统日志',2,'HistoryOutlined','/sysom/othersyslog/list','othersyslog','','/src/views/sysom/othersys/log/index.vue','om:othersyslog:list',1,1,0,'',3,'2024-09-12 16:00:34.701'),
+	 (606296584405381,575130165617029,'S7',2,'EnvironmentOutlined','/dataPoint/s7','s7','','/src/views/dataPoint/s7/index.vue','dataPoint:s7:list',1,1,0,'',99,'2024-10-29 15:27:09.072'),
+	 (589967722164613,0,'低代码开发',1,'CodepenOutlined','','','','','dev:lowcode',1,1,0,'',11,'2024-09-13 12:04:50.439'),
+	 (589969538470278,589967722164613,'任务配置',2,'HighlightOutlined','/lowcode/taskSetting','taskSetting','','/src/views/lowcode/tasksetting/index.vue','dev:lowcode:taskSetting',1,1,0,'',1,'2024-09-13 12:12:13.873');
+INSERT INTO public.sys_menu (id,parent_id,title,"type",icon,route,keep_alive,"key","path",pem,"enable","show",target,query,"order",created_time) VALUES
+	 (608826131882373,575130165617029,'数据读写记录',2,'ClearOutlined','/dataPoint/log','protocolLog','','/src/views/dataPoint/log/index.vue','dataPoint:protocolLog:list',1,1,0,'',1,'2024-11-05 18:59:54.374'),
+	 (619488838734213,0,'系统设置',2,'SettingOutlined','/setting','setting','','/src/views/admin/setting/index.vue','sys:setting',1,1,0,'',999,'2024-12-05 22:06:34.289'),
+	 (628319775887749,575130165617029,'OpcUa',2,'EnvironmentOutlined','/dataPoint/opcUa','opcUa','','/src/views/dataPoint/opcUa/index.vue','dataPoint:opcUa:list',1,1,0,'',9,'2024-12-30 20:59:44.806'),
+	 (631834352755077,628319775887749,'编辑opcUa数据点',2,'','/dataPoint/opcUa/edit:id','opcUaEdit','','/src/views/dataPoint/opcUa/edit.vue','dataPoint:opcUa:edit',1,0,0,'{ id: ''''}',99,'2025-01-09 19:20:35.798413'),
+	 (606736313418117,606296584405381,'编辑S7数据点',2,'','/dataPoint/s7/Edit:id','s7Edit','','/src/views/dataPoint/s7/edit.vue','dataPoint:s7:edit',1,0,0,'{ dataPoint: {}}',99,'2024-10-30 21:16:24.788');

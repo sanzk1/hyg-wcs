@@ -22,4 +22,8 @@
     <ProjectReference Include="..\quartzModeule\quartzModeule.csproj" />
   </ItemGroup>
 
+  <ItemGroup>
+    <Folder Include="sql\" />
+  </ItemGroup>
+
 </Project>

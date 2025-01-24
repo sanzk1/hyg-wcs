@@ -137,10 +137,10 @@ const add = () =>{
   route.push( '/dataPoint/s7/Edit'+ '0')
 }
 
-const importExcel = () =>{
-
+const importExcel = (e) =>{
   const formData = new FormData();
   formData.append('file', e.file);
+  console.log(formData)
   S7Import(formData).then((res) => {
     if (res.code === 200) {
       message.success("保存成功")
@@ -221,16 +221,13 @@ const exportExcel = () =>{
     </a-button>-->
     <a-upload
         :customRequest="importExcel"
-        list-type="text"
+        :showUploadList="false"
     >
-      <a-button>
+      <a-button type="primary">
         <upload-outlined></upload-outlined>
-        Upload
+        导入
       </a-button>
     </a-upload>
-    <a-button type="primary"  @click="importExcel"  style="margin: 10px;">
-      导入
-    </a-button>
     <a-button type="primary"  @click="exportExcel"  style="margin: 10px;">
       导出
     </a-button>

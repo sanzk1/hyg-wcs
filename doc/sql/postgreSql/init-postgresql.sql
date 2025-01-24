@@ -235,3 +235,75 @@ CREATE TABLE public.protocol_log (
 	oper varchar(255) NOT NULL,
 	CONSTRAINT protocol_log_pkey PRIMARY KEY (id)
 );
+
+-- public.modbus_data_point definition
+
+-- Drop table
+
+-- DROP TABLE public.modbus_data_point;
+
+CREATE TABLE public.modbus_data_point (
+	id bigserial NOT NULL,
+	"name" varchar(255) NOT NULL,
+	category varchar(255) NOT NULL,
+	ip varchar(255) NOT NULL,
+	port int4 NOT NULL,
+	station_no int4 NOT NULL,
+	start_address int4 NOT NULL,
+	data_type varchar(255) NOT NULL,
+	format varchar(255) NOT NULL,
+	length int4 NOT NULL,
+	read_only bool NOT NULL,
+	value int4 NOT NULL,
+	remark varchar(255) NOT NULL,
+	hardware_type int4 NOT NULL,
+	CONSTRAINT modbus_data_point_pkey PRIMARY KEY (id)
+);
+CREATE TABLE public.sys_setting (
+	id bigserial NOT NULL,
+	key_name varchar(255) NOT NULL,
+	value varchar(255) NOT NULL,
+	CONSTRAINT sys_setting_pkey PRIMARY KEY (id)
+);
+
+CREATE TABLE public.sys_file_info (
+                                      id bigserial NOT NULL,
+                                      file_name varchar(255) NOT NULL,
+                                      url varchar(255) NOT NULL,
+                                      "path" varchar(255) NOT NULL,
+                                      suffix varchar(255) NOT NULL,
+                                      file_type int4 NOT NULL,
+                                      is_delete bool NOT NULL,
+                                      created_time timestamp NOT NULL,
+                                      "size" int8 NOT NULL,
+                                      CONSTRAINT sys_file_info_pkey PRIMARY KEY (id)
+);
+CREATE TABLE public.opc_ua_data_point (
+                                          id bigserial NOT NULL,
+                                          "name" varchar(255) NOT NULL,
+                                          category varchar(255) NOT NULL,
+                                          endpoint varchar(255) NOT NULL,
+                                          namespace_index int4 NOT NULL,
+                                          identifier varchar(255) NOT NULL,
+                                          access_type varchar(255) NOT NULL,
+                                          data_type varchar(255) NOT NULL,
+                                          remark varchar(255) NOT NULL,
+                                          hardware_type int4 NOT NULL,
+                                          operate int4 NOT NULL,
+                                          CONSTRAINT opc_ua_data_point_pkey PRIMARY KEY (id)
+);
+
+CREATE TABLE public.interface_request_config (
+                                                 config_id bigserial NOT NULL,
+                                                 interface_name varchar(255) NOT NULL,
+                                                 request_method int4 NOT NULL,
+                                                 request_url varchar(255) NOT NULL,
+                                                 request_body varchar(255) NOT NULL,
+                                                 response_type int4 NOT NULL,
+                                                 auth_type_key varchar(255) NOT NULL,
+                                                 auth_credentials varchar(255) NOT NULL,
+                                                 is_delete bool NOT NULL,
+                                                 create_time timestamp NOT NULL,
+                                                 update_time timestamp NOT NULL,
+                                                 CONSTRAINT interface_request_config_pkey PRIMARY KEY (config_id)
+);
