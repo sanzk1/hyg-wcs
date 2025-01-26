@@ -1,5 +1,21 @@
 import {request} from "@/utils/http/index.js";
 
+export const OpcImportExcel = (data)=>{
+    return request({
+        url: '/OpcUaDataPoint/importExcel',
+        method: 'post',
+        data: data
+    })
+}
+export const OpcExportExcel = (data)=>{
+    return request({
+        url: '/OpcUaDataPoint/exportExcel',
+        method: 'post',
+        data: data,
+        responseType:'blob'
+    })
+}
+
 export const GetOpcUaList = (data)=>{
     return request({
         url: '/OpcUaDataPoint/getList',
@@ -106,7 +122,7 @@ export const S7Import = (data) => {
     return request({
         url: '/S7DataPoint/importExcel/' ,
         method: 'post',
-        params: data
+        data: data
     })
 }
 export const S7Export = (data) => {

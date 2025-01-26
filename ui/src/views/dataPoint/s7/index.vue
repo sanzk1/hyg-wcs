@@ -144,11 +144,11 @@ const importExcel = (e) =>{
   S7Import(formData).then((res) => {
     if (res.code === 200) {
       message.success("保存成功")
+      search(null)
     }
     else
-      message.success(res.msg)
+      message.error(res.msg)
   })
-  // S7Import
 
 }
 const exportExcel = () =>{
@@ -159,7 +159,6 @@ const exportExcel = () =>{
   })
 
 }
-
 
 </script>
 

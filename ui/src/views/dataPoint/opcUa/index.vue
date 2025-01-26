@@ -1,9 +1,18 @@
 <script setup>
 import {reactive, ref, onMounted} from 'vue';
-import {DelOpcUa, GetOpcUaList, GetS7List} from "@/api/dataPoint.js";
+import {
+  DelOpcUa,
+  GetOpcUaList,
+  GetS7List,
+  OpcExportExcel,
+  OpcImportExcel,
+  S7Export,
+  S7Import
+} from "@/api/dataPoint.js";
 import {DeleteOutlined} from "@ant-design/icons-vue";
 import {message} from "ant-design-vue";
 import {useRouter} from "vue-router";
+import fileDownload from "js-file-download";
 
 defineOptions({
   name : 'opcUa'
@@ -16,16 +25,16 @@ onMounted(() => {
 const ip = ref('')
 const name = ref('')
 const category = ref('')
-const startAddress = ref(null)
+const identifier = ref('')
 
 const reset = () => {
   ip.value = ''
   name.value = ''
   category.value = ''
-  startAddress.value = undefined
+  identifier.value = ''
 }
 const search = (page) =>{
-  let query = {name:name.value, category: category.value, ip: ip.value, startAddress: startAddress.value,
+  let query = {name:name.value, category: category.value, ip: ip.value, identifier: identifier.value,
     pageNum: paginationer.current, pageSize: paginationer.pageSize }
   if (page){
     query.pageNum = page.current;
@@ -137,21 +146,28 @@ const read = () =>{
 const write = () =>{
 
 }
-const importExcel = () =>{
-
+const importExcel = (e) =>{
+  const formData = new FormData();
+  formData.append('file', e.file);
+  console.log(formData)
+  OpcImportExcel(formData).then((res) => {
+    if (res.code === 200) {
+      message.success("保存成功")
+      search(null)
+    }
+    else
+      message.error(res.msg)
+  })
 }
 const exportExcel = () =>{
+  let query = {name:name.value, category: category.value, ip: ip.value, identifier: identifier.value,
+    pageNum: paginationer.current, pageSize: paginationer.pageSize }
+  OpcExportExcel(query).then(res =>{
+    fileDownload(res, "opc数据点.xlsx");
+  })
 
 }
 
-const layout = {
-  labelCol: {
-    span: 8,
-  },
-  wrapperCol: {
-    span: 16,
-  },
-};
 </script>
 
 <template>
@@ -173,7 +189,7 @@ const layout = {
 
       <a-flex gap="middle">
         <label class="from-label">Identifier：</label>
-        <a-input v-model:value="startAddress" placeholder="请输入identifier" />
+        <a-input v-model:value="identifier" placeholder="请输入identifier" />
       </a-flex>
 
       <a-flex gap="large">
@@ -210,9 +226,15 @@ const layout = {
         <a-button type="primary"  @click="write"  style="margin: 10px;">
           写入
         </a-button>-->
-    <a-button type="primary"  @click="importExcel"  style="margin: 10px;">
-      导入
-    </a-button>
+    <a-upload
+        :customRequest="importExcel"
+        :showUploadList="false"
+    >
+      <a-button type="primary">
+        <upload-outlined></upload-outlined>
+        导入
+      </a-button>
+    </a-upload>
     <a-button type="primary"  @click="exportExcel"  style="margin: 10px;">
       导出
     </a-button>
