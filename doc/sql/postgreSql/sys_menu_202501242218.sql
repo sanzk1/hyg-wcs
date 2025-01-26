@@ -47,4 +47,5 @@ INSERT INTO public.sys_menu (id,parent_id,title,"type",icon,route,keep_alive,"ke
 	 (619488838734213,0,'系统设置',2,'SettingOutlined','/setting','setting','','/src/views/admin/setting/index.vue','sys:setting',1,1,0,'',999,'2024-12-05 22:06:34.289'),
 	 (628319775887749,575130165617029,'OpcUa',2,'EnvironmentOutlined','/dataPoint/opcUa','opcUa','','/src/views/dataPoint/opcUa/index.vue','dataPoint:opcUa:list',1,1,0,'',9,'2024-12-30 20:59:44.806'),
 	 (631834352755077,628319775887749,'编辑opcUa数据点',2,'','/dataPoint/opcUa/edit:id','opcUaEdit','','/src/views/dataPoint/opcUa/edit.vue','dataPoint:opcUa:edit',1,0,0,'{ id: ''''}',99,'2025-01-09 19:20:35.798413'),
-	 (606736313418117,606296584405381,'编辑S7数据点',2,'','/dataPoint/s7/Edit:id','s7Edit','','/src/views/dataPoint/s7/edit.vue','dataPoint:s7:edit',1,0,0,'{ dataPoint: {}}',99,'2024-10-30 21:16:24.788');
+	 (606736313418117,606296584405381,'编辑S7数据点',2,'','/dataPoint/s7/Edit:id','s7Edit','','/src/views/dataPoint/s7/edit.vue','dataPoint:s7:edit',1,0,0,'{ dataPoint: {}}',99,'2024-10-30 21:16:24.788'),
+	 (637748937961861,575130165617029,'Modbus',2,'EnvironmentOutlined','/modbus/list','modbus','','/src/views/dataPoint/modbus/index.vue','dataPoint:Modbus:list',1,1,0,'',10,'2025-01-26 12:27:06.327989');

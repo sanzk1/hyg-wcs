@@ -191,7 +191,7 @@ public class OpcUaDataPointBll : IOpcUaDataPointBll
         catch (Exception ex)
         {
             _logger.LogError($"OpcUa数据点导出Excel失败, 原因：{ex.Message}");
-            throw new BusinessException("sOpcUa数据点导出Excel失败");
+            throw new BusinessException("OpcUa数据点导出Excel失败");
         }
 
     }
