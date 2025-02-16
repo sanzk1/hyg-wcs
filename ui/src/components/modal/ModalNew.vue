@@ -10,7 +10,7 @@ const props = defineProps({
   title: String,
   cancelText: String,
   okText: String,
-  show: Boolean,
+  show: false,
   cancel: Function,
   handleOk: Function
 })
@@ -70,7 +70,7 @@ const transformStyle = computed(() => {
 </script>
 
 <template>
-  <a-modal ref="modalRef" v-model:open="props.show" :wrap-style="{ overflow: 'hidden' }" @ok="props.handleOk" @cancel="props.cancel">
+  <a-modal ref="modalRef" :open="props.show" :wrap-style="{ overflow: 'hidden' }" @ok="props.handleOk" @cancel="props.cancel">
     <slot name="content"></slot>
     <template #title>
       <div ref="modalTitleRef" style="width: 100%; cursor: move">{{props.title}}</div>

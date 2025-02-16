@@ -1,5 +1,56 @@
 import {request} from "@/utils/http/index.js";
 
+export const GetModbusList = (data)=>{
+    return request({
+        url: '/ModbusData/list',
+        method: 'post',
+        data: data
+    })
+}
+export const AddOrUpdateModbus = (data)=>{
+    return request({
+        url: '/ModbusData/save',
+        method: 'post',
+        data: data
+    })
+}
+export const DelModbus = (data)=>{
+    return request({
+        url: '/ModbusData/del',
+        method: 'post',
+        data: data
+    })
+}
+export const ImportModbus = (data)=>{
+    return request({
+        url: '/ModbusData/import',
+        method: 'post',
+        data: data
+    })
+}
+export const ExportModbus = (data)=>{
+    return request({
+        url: '/ModbusData/export',
+        method: 'post',
+        data: data
+    })
+}
+export const writeByIdModbus = (data)=>{
+    return request({
+        url: '/ModbusData/writeById',
+        method: 'post',
+        params: data
+    })
+}
+export const readByIddModbus = (data)=>{
+    return request({
+        url: '/ModbusData/readById',
+        method: 'post',
+        params: data
+    })
+}
+
+
 export const OpcImportExcel = (data)=>{
     return request({
         url: '/OpcUaDataPoint/importExcel',
