@@ -154,8 +154,8 @@ public class OpcUaManager : ManagerAbstract<OpcUaDataPoint>, IOpcUaManager
         DataValue dataValue = result.Results[0];
         bool b = false;
         if (dataValue.StatusCode.Value == 0)
-            b = true;
-        return new DataPointDto(b, dataValue.Value, dataValue.StatusCode.Value.ToString());
+            return new DataPointDto(true, dataValue.Value, string.Empty);
+        return new DataPointDto(b, dataValue.Value, $"异常错误码：{dataValue.StatusCode.ToString()}");
     }
 
     [ProtocolLog(OperateEnum.Write, ProtocolEnum.OpcUa)]
@@ -177,10 +177,9 @@ public class OpcUaManager : ManagerAbstract<OpcUaDataPoint>, IOpcUaManager
         };
         var result = plc.WriteAsync(request).GetAwaiter().GetResult();
         StatusCode code = result.Results[0];
-        bool b = false;
         if (code.Value == 0)
-            b = true;
-        return new DataPointDto(b, value, code.Value.ToString());
+            return new DataPointDto(true, value,  string.Empty);
+        return new DataPointDto(false, value, $"异常错误码：{code.ToString()}");
     }
 
     private string GetNodeId(OpcUaDataPoint point)
