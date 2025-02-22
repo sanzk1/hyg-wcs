@@ -44,6 +44,7 @@ public class ProtocolLogBll : IProtocolLogBll
         exp.AndIF(!string.IsNullOrEmpty(query.name), x => x.name.Contains(query.name));
         exp.AndIF(!string.IsNullOrEmpty(query.category), x => x.category.Equals(query.category));
         exp.AndIF(query.status != null, x => x.status == query.status);
+        exp.AndIF(!string.IsNullOrEmpty(query.oper), x =>  query.oper.Equals(x.oper));
         exp.AndIF(query.startTime != null, x => x.endTime >= query.startTime);
         exp.AndIF(query.endTime != null, x => x.endTime <= query.endTime);
 

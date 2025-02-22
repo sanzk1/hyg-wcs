@@ -1,6 +1,6 @@
 <script setup>
 
-import {reactive, ref} from "vue";
+import {reactive, ref, onMounted} from "vue";
 import {message} from "ant-design-vue";
 import {DelLog, ExportLogExcel, GetProtocolList,} from "@/api/dataPoint.js";
 import {DeleteOutlined} from "@ant-design/icons-vue";
@@ -13,9 +13,12 @@ defineOptions({
 const status = ref(undefined)
 const name = ref('')
 const category = ref(undefined)
-const oper = ref(undefined)
+const oper = ref('')
 const operateTime = ref([])
 
+onMounted(() => {
+  search(null)
+})
 
 const reset = () => {
   status.value = undefined
@@ -27,6 +30,9 @@ const reset = () => {
 const search = (page) =>{
   let query = {name:name.value, status: status.value === undefined? undefined: status.value === 'true', category: category.value,
     pageNum: paginationer.current, pageSize: paginationer.pageSize }
+  if (oper.value !== ''){
+    query.oper = oper.value
+  }
   if (page){
     query.pageNum = page.current;
     query.pageSize = page.pageSize;
@@ -118,7 +124,7 @@ const del = () =>{
   }
   let arr = selectRow.value.map( item => item.id);
   DelLog(arr).then(res => {
-    console.log(res)
+    // console.log(res)
     if (res.code === 200){
       message.success("删除成功！")
       search(null)
@@ -190,8 +196,8 @@ const exportExcel = () => {
             style="width: 180px;"
             v-model:value="oper"
         >
-          <a-select-option :value="0" >读</a-select-option>
-          <a-select-option :value="1" >写</a-select-option>
+          <a-select-option value="Read" >读</a-select-option>
+          <a-select-option value="Write" >写</a-select-option>
         </a-select>
       </a-flex>
       <a-flex gap="middle">
