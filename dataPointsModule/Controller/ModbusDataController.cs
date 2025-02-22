@@ -23,8 +23,7 @@ public class ModbusDataController : ControllerBase
     [HttpPost]
     public ApiResult list([FromBody] ModbusDataQuery query)
     {
-        _modbusDataBll.GetList(query);
-        return ApiResult.succeed();
+        return ApiResult.succeed( _modbusDataBll.GetList(query));
     }
     
     [HttpPost]
