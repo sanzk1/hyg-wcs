@@ -18,7 +18,8 @@ const formState = reactive({
   // remember: true,
 });
 onMounted(() => {
-  logo.value = settingStore.loginLogoUrl
+  if(settingStore.loginLogoUrl !== '')
+    logo.value = settingStore.loginLogoUrl
   // initSetting()
 
 })
