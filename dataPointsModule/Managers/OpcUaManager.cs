@@ -171,7 +171,7 @@ public class OpcUaManager : ManagerAbstract<OpcUaDataPoint>, IOpcUaManager
                 new WriteValue() {
                     NodeId = NodeId.Parse(GetNodeId(point)),
                     AttributeId = AttributeIds.Value,
-                    Value = new DataValue(value)
+                    Value = new DataValue(ConvertType(point, value))
                 },                  
             }
         };
@@ -188,6 +188,35 @@ public class OpcUaManager : ManagerAbstract<OpcUaDataPoint>, IOpcUaManager
         return $"ns={point.namespaceIndex};{point.accessType}={point.identifier}";
     }
 
+    private object ConvertType(OpcUaDataPoint point, object value)
+    {
+        if ("string".Equals(point.dataType))
+        {
+            return Convert.ToString(value);
+        }
+        if ("bool".Equals(point.dataType))
+        {
+            return Convert.ToBoolean(value);
+        }
+        if ("int".Equals(point.dataType))
+        {
+            return Convert.ToInt32(value);
+        }
+        if ("short".Equals(point.dataType))
+        {
+            return Convert.ToInt16(value);
+        }
+        if ("float".Equals(point.dataType))
+        {
+            return float.Parse(value.ToString());
+        }
+        if ("double".Equals(point.dataType))
+        {
+            return Convert.ToDouble(value);
+        }
+        
+        return value;
+    }
   
 
     
