@@ -78,14 +78,14 @@ const selectRow = ref([])
 const dataSource = ref([ ])
 const columns= ref([
   {    title: '数据点id',    dataIndex: 'name',    key: 'name',   align: 'center' , ellipsis: true,  show:true , width: 200 },
-  {    title: '协议',    dataIndex: 'category',    key: 'category',    align: 'center',  show:true, width: 150   },
-  {    title: '状态',    dataIndex: 'status',    key: 'status',    align: 'center',  show:true, width: 130  },
-  {    title: '消耗时间',    dataIndex: 'time',    key: 'time',    align: 'center',   show:true , width: 140 },
+  {    title: '协议',    dataIndex: 'category',    key: 'category',    align: 'center',  show:true, width: 90   },
+  {    title: '状态',    dataIndex: 'status',    key: 'status',    align: 'center',  show:true, width: 80  },
+  {    title: '消耗时间',    dataIndex: 'time',    key: 'time',    align: 'center',   show:true , width: 80 },
   {    title: '值',    dataIndex: 'value',    key: 'value',    align: 'center',    show:true , width: 150 },
   {    title: '异常原因',    dataIndex: 'reson',    key: 'reson',    align: 'left', ellipsis: true,   show:true , width: 250  },
-  {    title: '操作',    dataIndex: 'oper',    key: 'oper',    align: 'center',  show:true , width: 130  },
-  {    title: '开始时间',    dataIndex: 'createdTime',    key: 'createdTime',    align: 'center',   show:true, width: 150   },
-  {    title: '结束时间',    dataIndex: 'endTime',    key: 'endTime',    align: 'center',  show:true , width: 150  },
+  {    title: '操作',    dataIndex: 'oper',    key: 'oper',    align: 'center',  show:true , width: 60  },
+  {    title: '开始时间',    dataIndex: 'createdTime',    key: 'createdTime',    align: 'center',   show:true, width: 100   },
+  {    title: '结束时间',    dataIndex: 'endTime',    key: 'endTime',    align: 'center',  show:true , width: 100  },
 ])
 
 const columnsCheck = (checked,data,index) => {
@@ -261,6 +261,11 @@ const exportExcel = () => {
           <a-tag v-if="record.status" color="#87d068">成功</a-tag>
           <a-tag  v-if="!record.status" color="#f50">失败</a-tag>
         </template>
+        <template v-if="column.dataIndex === 'oper'">
+          <a-tag v-if="record.oper === 'Read' " color="#2db7f5" >读</a-tag>
+          <a-tag  v-if="record.oper === 'Write'" color="#2db7f5"  >写</a-tag>
+        </template>
+
         <template v-if="column.dataIndex === 'time'">
           {{ record.time }} 毫秒
         </template>
