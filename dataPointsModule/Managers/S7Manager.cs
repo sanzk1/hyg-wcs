@@ -42,7 +42,7 @@ public class S7Manager : ManagerAbstract<S7DataPoint>, IS7Manager
         }
         catch (Exception ex)
         {
-            logger.LogError($"S7协议plc连接失败，IP：{t.ip}，原因：{ex.Message}");
+            logger.LogError(ex, $"S7协议plc连接失败，IP：{t.ip}，原因：{ex.Message}");
         }
     }
 
@@ -59,7 +59,7 @@ public class S7Manager : ManagerAbstract<S7DataPoint>, IS7Manager
         }
         catch (Exception ex)
         {
-            logger.LogError($"S7协议plc断开连接失败 IP：{t.ip}，原因：{ex.Message}");
+            logger.LogError(ex, $"S7协议plc断开连接失败 IP：{t.ip}，原因：{ex.Message}");
         }
     }
 
@@ -80,7 +80,7 @@ public class S7Manager : ManagerAbstract<S7DataPoint>, IS7Manager
         }
         catch (Exception ex) 
         {
-            logger.LogInformation($"S7协议plc正在重新连接异常，IP：{t.ip}，原因：{ex.Message}");
+            logger.LogInformation(ex, $"S7协议plc正在重新连接异常，IP：{t.ip}，原因：{ex.Message}");
         }
     }
 
@@ -103,7 +103,7 @@ public class S7Manager : ManagerAbstract<S7DataPoint>, IS7Manager
         }
         catch (Exception ex)
         {
-            logger.LogError($"S7协议在线plc连接获取失败，原因：{ex.Message}");
+            logger.LogError(ex, $"S7协议在线plc连接获取失败，原因：{ex.Message}");
         }
         return null;
     }
