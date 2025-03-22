@@ -219,6 +219,7 @@ public class S7DataPointBll : IS7DataPointBll
             point.slot = dto.slot;
             point.dataType = dto.dataType;
             point.db = dto.db;
+            point.startAddress = dto.startAddress;
             point.length = dto.length;
             point.remark = dto.remark;
             point.operate = dto.operate;
