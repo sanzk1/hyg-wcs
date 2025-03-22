@@ -301,11 +301,14 @@ public class S7Manager : ManagerAbstract<S7DataPoint>, IS7Manager
     private byte[] strToBytes(string str, int length)
     {
         byte[] value = Encoding.ASCII.GetBytes(str);
-        byte[] head = new byte[2];
-        head[0] = Convert.ToByte(length);
-        head[1] = Convert.ToByte(value.Length);
-        value = head.Concat(value).ToArray();
-        return value;
+        List<byte> list = new List<byte>(length);
+        list.Add(Convert.ToByte(length));
+        list.Add(Convert.ToByte(value.Length));
+        list.AddRange(value.ToList());
+        int current = length - value.Length - 1;
+        for (int i = current; i < length; i++)
+            list.Add(0x00);
+        return list.ToArray();
     }
     /// <summary>
     /// 读取s7字节转字符串

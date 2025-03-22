@@ -65,7 +65,7 @@ public class S7DataPointBll : IS7DataPointBll
         exp.AndIF(!string.IsNullOrEmpty(query.name), x => x.category.Contains(query.category));
         exp.AndIF( query.startAddress != null, x => x.startAddress == query.startAddress);
         using var db = _dbClientFactory.GetSqlSugarClient();
-        pager.rows = db.Queryable<S7DataPoint>().Where(exp.ToExpression()).Skip(pager.getSkip())
+        pager.rows = db.Queryable<S7DataPoint>().Where(exp.ToExpression()).OrderByDescending(s => s.id).Skip(pager.getSkip())
             .Take(pager.pageSize).ToList();
         pager.total = db.Queryable<S7DataPoint>().Where(exp.ToExpression()).Count();
         return pager;
