@@ -41,6 +41,7 @@ public class ModbusDataBll : IModbusDataBll
             }
             modbusDataPoint.id = YitIdHelper.NextId();
             _modbusDataDal.Insert(modbusDataPoint);
+            return;
         }
 
         ModbusDataPoint? m = _modbusDataDal.SelectById(modbusDataPoint.id);
@@ -124,15 +125,25 @@ public class ModbusDataBll : IModbusDataBll
         return _manager.Write(m, value);
     }
 
-    public FileResult ExportExcel(ModbusDataQuery query)
+    public FileStreamResult ExportExcel(ModbusDataQuery query)
     {
-        var memoryStream = new MemoryStream();
-        memoryStream.SaveAs(_modbusDataDal.SelectList(query));
-        memoryStream.Seek(0, SeekOrigin.Begin);
-        return new FileStreamResult(memoryStream, "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet")
+        try
         {
-            FileDownloadName = "Modbus数据点.xlsx"
-        };
+            var list =  _modbusDataDal.SelectList(query);
+            var memoryStream = new MemoryStream();
+            memoryStream.SaveAs(list);
+            memoryStream.Seek(0, SeekOrigin.Begin);
+            return new FileStreamResult(memoryStream, "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet")
+            {
+                FileDownloadName = "modbus数据点.xlsx"
+            };
+        }
+        catch (Exception ex)
+        {
+            _logger.LogError(ex,$"modbus数据点导出Excel失败, 原因：{ex.Message}");
+            throw new BusinessException("modbus数据点导出Excel失败");
+        }
+        
     }
 
     public void ImportExcel(IFormFile file)
@@ -146,7 +157,7 @@ public class ModbusDataBll : IModbusDataBll
         List<ModbusDataPoint> list = new();
         var rows = MiniExcel.Query<ModbusPointDto>(file.OpenReadStream());
         
-        list.ForEach(item =>
+        rows.ToList().ForEach(item =>
         {
             ModbusDataPoint modbusDataPoint = new();
             modbusDataPoint.name = item.name;
@@ -160,7 +171,7 @@ public class ModbusDataBll : IModbusDataBll
             modbusDataPoint.readOnly = item.readOnly;
             modbusDataPoint.format = item.format;
             modbusDataPoint.remark = item.remark;
-            list.Add(item);
+            list.Add(modbusDataPoint);
         });
         _modbusDataDal.BatchInsert(list);
     }

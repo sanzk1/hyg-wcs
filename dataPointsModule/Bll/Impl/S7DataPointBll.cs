@@ -193,7 +193,7 @@ public class S7DataPointBll : IS7DataPointBll
         }
         catch (Exception ex)
         {
-            _logger.LogError($"s7数据点导出Excel失败, 原因：{ex.Message}");
+            _logger.LogError(ex,$"s7数据点导出Excel失败, 原因：{ex.Message}");
             throw new BusinessException("s7数据点导出Excel失败");
         }
     }
