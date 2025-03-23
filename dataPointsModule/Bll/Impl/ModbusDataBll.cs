@@ -32,13 +32,36 @@ public class ModbusDataBll : IModbusDataBll
     
     public void Save(ModbusDataPoint modbusDataPoint)
     {
-        ModbusDataPoint m1 = _modbusDataDal.SelectByName(modbusDataPoint.name);
-        if (null != m1)
+        if (modbusDataPoint.id == 0)
         {
-            throw new BusinessException(HttpCode.FAILED_CODE, "数据点名称已存在");
+            ModbusDataPoint m1 = _modbusDataDal.SelectByName(modbusDataPoint.name);
+            if (null != m1)
+            {
+                throw new BusinessException(HttpCode.FAILED_CODE, "数据点名称已存在");
+            }
+            modbusDataPoint.id = YitIdHelper.NextId();
+            _modbusDataDal.Insert(modbusDataPoint);
         }
-        modbusDataPoint.id = YitIdHelper.NextId();
-        _modbusDataDal.Insert(modbusDataPoint);
+
+        ModbusDataPoint? m = _modbusDataDal.SelectById(modbusDataPoint.id);
+        if (m is null)
+        {
+            throw new BusinessException(HttpCode.FAILED_CODE, "数据点不存在保存失败");
+        }
+
+        m.category = modbusDataPoint.category;
+        m.ip = modbusDataPoint.ip;
+        m.port = modbusDataPoint.port;
+        m.startAddress = modbusDataPoint.startAddress;
+        m.stationNo = modbusDataPoint.stationNo;
+        m.format = modbusDataPoint.format;
+        m.length = modbusDataPoint.length;
+        m.remark = modbusDataPoint.remark;
+        m.hardwareType = modbusDataPoint.hardwareType;
+        m.dataType = modbusDataPoint.dataType;
+        m.readOnly = modbusDataPoint.readOnly;
+        
+        _modbusDataDal.Update(m);
     }
 
     public void Remove(List<long> ids)
